@@ -23,4 +23,3 @@
 	<%@include file="/jsp/common/footer.jsp" %>
 	</body>
 </html>
-test
