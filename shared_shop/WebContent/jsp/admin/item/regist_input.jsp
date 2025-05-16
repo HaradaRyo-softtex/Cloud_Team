@@ -1,0 +1,119 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="jp.co.sss.shop.constant.MSGConstant" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<%@include file="/jsp/common/head.jsp" %>
+	<title>
+		<%=Constant.ITEM%>登録入力 | <%=Constant.SHOP_TITLE%>
+	</title>
+</head>
+<body  class="admin item_regist_input">
+	<%@include file="/jsp/common/header.jsp" %>
+	<div class="container side_wrap">
+		<%@include file="/jsp/common/sidebar_admin.jsp" %>
+		<article class="main">
+			<h2 class="title">
+				<%=Constant.ITEM%>登録入力
+			</h2>
+			<p class="input_message">
+				<%=MSGConstant.MSG_REGIST_INPUT%>
+			</p>
+			<div class="user_info_form_area">
+				<form method="post" class="user_info_form" action="<%=request.getContextPath()%>/admin/item/regist/input" enctype="multipart/form-data">
+					<c:if test="${errorMessageList!=null}">
+						<ul class="error_list">
+						<c:forEach var="errorMsg" items="${errorMessageList}">
+							<li>
+								<span>
+									${errorMsg}
+								</span>
+							</li>
+						</c:forEach>
+						</ul>
+					</c:if>
+							<br />
+					<ul class="input_list">
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_ITEM_NAME%>
+								</span>
+								<input type="text" name="name" value="<c:out value="${itemForm.name}"/>" />
+							</label>
+						</li>
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_ITEM_PRICE%>
+								</span>
+								<input type="text" name="price" value="<c:out value="${itemForm.price}"/>" />
+							</label>
+						</li>
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_ITEM_STOCK%>
+								</span>
+								<input type="text" name="stock" value="<c:out value="${itemForm.stock}"/>" />
+							</label>
+						</li>
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.CATEGORY%>
+								</span>
+								<select name="categoryId">
+								<c:forEach var="category" items="${categoryList}">
+									<c:choose>
+									<c:when test="${category.id==itemForm.categoryId}">
+									<option value="${category.id}" SELECTED>
+										<c:out value="${category.name}"/>
+									</option>
+									</c:when>
+									<c:otherwise>
+									<option value="${category.id}">
+										<c:out value="${category.name}"/>
+									</option>
+									</c:otherwise>
+									</c:choose>
+								</c:forEach>
+								</select>
+							</label>
+						</li>
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_DESCRIPTION%>
+								</span>
+								<textarea name="description" rows="6"><c:out value="${itemForm.description}"/></textarea>
+							</label>
+						</li>
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_ITEM_IMAGE%>
+								</span>
+								<input type="file" id="upload_file" name="imageFile" accept=".jpg,.jpeg"/>
+								<span class="item_input_area">
+									<c:if test="${itemForm.image!=null}">
+										<img src="<%=request.getContextPath()%>/img/${itemForm.image}" />
+									</c:if>
+								</span>
+							</label>
+						</li>
+					</ul>
+					<input type="hidden" name="backflg" value="<%=Constant.BACKFLG_OFF%>" />
+					<input type="submit" value="確認" class="send_button" />
+				</form>
+				<form method="get" action="<%=request.getContextPath()%>/admin/item/list">
+					<input type="submit" value="戻る" class="back_button" />
+				</form>
+			</div>
+		</article>
+		</div>
+	<%@include file="/jsp/common/footer.jsp" %>
+</body>
+</html>
