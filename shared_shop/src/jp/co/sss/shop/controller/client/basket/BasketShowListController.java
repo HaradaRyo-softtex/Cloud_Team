@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jp.co.sss.shop.bean.BasketBean;
-import jp.co.sss.shop.bean.ItemBean;
+import jp.co.sss.shop.bean.ItemDetailBean;
 import jp.co.sss.shop.constant.MSGConstant;
 import jp.co.sss.shop.dao.ItemDao;
 
@@ -23,6 +23,7 @@ import jp.co.sss.shop.dao.ItemDao;
 public class BasketShowListController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		HttpSession session = request.getSession(false);
 		List<BasketBean> basket = (List<BasketBean>) session.getAttribute("basket");
 
@@ -35,13 +36,13 @@ public class BasketShowListController extends HttpServlet {
 
 			while (it.hasNext()) {
 				BasketBean item = it.next();
-				int stock = getStockByItemId(item.getId()); // 商品IDから在庫を取得
+				int stock = getStockByItemId(item.getId());
 
 				if (stock <= 0) {
 					messages.add(item.getName() + MSGConstant.MSG_BASKET_STOCK_NONE);
-					it.remove(); // 在庫ゼロ ⇒ 削除
+					it.remove();
 				} else if (item.getOrderNum() > stock) {
-					item.setOrderNum(stock); // 数量を在庫に合わせる
+					item.setOrderNum(stock);
 					messages.add(item.getName() + MSGConstant.MSG_BASKET_STOCK_SHORT);
 				}
 			}
@@ -49,7 +50,7 @@ public class BasketShowListController extends HttpServlet {
 			if (basket.isEmpty()) {
 				request.setAttribute("message", MSGConstant.MSG_BASKET_LIST_NONE);
 			} else {
-				Collections.reverse(basket); // 買い物かごのリストを逆順にして表示
+				Collections.reverse(basket);
 				request.setAttribute("basket", basket);
 			}
 		}
@@ -58,7 +59,7 @@ public class BasketShowListController extends HttpServlet {
 			request.setAttribute("messageList", messages);
 		}
 
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/client/basket/list.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp//client/basket/list.jsp");
 		dispatcher.forward(request, response);
 	}
 
@@ -70,27 +71,13 @@ public class BasketShowListController extends HttpServlet {
 	 */
 	private int getStockByItemId(int itemId) {
 		try {
-			List<ItemBean> itemList = ItemDao.findAll(""); // ItemDaoから商品情報を取得（引数は並び順の指定）
-			for (ItemBean item : itemList) {
-				if (item.getId().equals(itemId)) {
-					return getStockFromItem(item); // ここで在庫数を取得
-				}
+			ItemDetailBean itemDetail = ItemDao.findOneByItemId(itemId);
+			if (itemDetail != null) {
+				return itemDetail.getStock();
 			}
 		} catch (Exception e) {
-			e.printStackTrace(); // エラー処理
+			e.printStackTrace();
 		}
-		return 0; // 何か問題があれば0を返す
-	}
-
-	/**
-	 * 商品の在庫数を取得
-	 *
-	 * @param item 商品情報
-	 * @return 在庫数（仮のデータとして現在の在庫数を返す）
-	 */
-	private int getStockFromItem(ItemBean item) {
-		// 実際の在庫数は、`item.getStock()` のようにDBから取得する
-		// 今回は仮の値を返します。
-		return 5; // 仮の在庫数
+		return 0;
 	}
 }
