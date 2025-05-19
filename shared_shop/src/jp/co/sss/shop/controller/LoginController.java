@@ -79,6 +79,9 @@ public class LoginController extends HttpServlet {
 			} else if (userBean.getAuthority() == Constant.AUTH_CLIENT) {
 				// 一般ユーザ権限でのログイン
 				// TODO 一般ユーザでログインした後のパスを作る
+				redirectURL=request.getContextPath() + "/top";//古崎入力
+				
+				
 			} else {
 				// システム管理者、運用管理者権限でのログイン
 				redirectURL = request.getContextPath() + "/admin";
