@@ -12,7 +12,6 @@ import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.bean.OrderDetailBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.DBConstant;
-import jp.co.sss.shop.dto.Order;
 
 /**
  * 注文情報テーブルを操作するクラス
@@ -36,6 +35,23 @@ public class OrderDao {
 
 		con = DBManager.getConnection();
 		ps = con.prepareStatement(DBConstant.SQL_SELECT_ORDERS_JOIN_USERS_ORDER_BY_INSERT_DATE);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			orderList.add(getOrderData(rs));
+		}
+		DBManager.close(con, ps);
+		return orderList;
+	}
+	
+	// 小島和也 追記 2025/5/19
+	public static List<OrderBean> findAllByOrderIdIncludeUserName() 
+			throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		List<OrderBean> orderList = new ArrayList<>();
+		
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_SELECT_ORDERS_BY_USERID_ORDER_BY_INSERT_DATE);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			orderList.add(getOrderData(rs));
