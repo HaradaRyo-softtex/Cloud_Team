@@ -9,8 +9,9 @@
 		<%=Constant.ITEM%>詳細 | <%=Constant.SHOP_TITLE%>
 	</title>
 </head>
-<body  class="admin item_detail_admin">
+<body  class="client  item_detail">
 	<%@include file="/jsp/common/header.jsp" %>
+	<%@include file="/jsp/common/navi.jsp" %>
 	<div class="container side_wrap">
 		<%@include file="/jsp/common/sidebar.jsp" %>
 			<article class="main">

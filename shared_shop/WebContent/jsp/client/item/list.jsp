@@ -13,6 +13,7 @@
 </head>
 <body class="client  item_list">
 	<%@include file="/jsp/common/header.jsp" %>
+	<%@include file="/jsp/common/navi.jsp" %>
 	<div class="container side_wrap">
 	<%@include file="/jsp/common/sidebar.jsp" %>
 		<article class="main">
@@ -44,7 +45,7 @@
 			<table class="list_table item_list">
 				<tr>
 					<th>
-						<%=Constant.DATA_ID%>
+						<%=Constant.DATA_ITEM_IMAGE%>
 					</th>
 					<th>
 						<%=Constant.DATA_ITEM_NAME%>
@@ -60,7 +61,7 @@
 				<c:forEach var="itemBean" items="${itemBeanList}">
 				<tr>
 					<td>
-						${itemBean.id}
+						<img src="<%=request.getContextPath()%>/img/${itemBean.image}" />
 					</td>
 					<td>
 						<a href="<%=request.getContextPath()%>/item/detail?id=${itemBean.id}">
