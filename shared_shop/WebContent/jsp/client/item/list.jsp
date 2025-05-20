@@ -38,11 +38,7 @@
 					<p><%=Constant.ITEM+MSGConstant.MSG_ITEM_CLIENT_LIST_NONE %></p>
 				</c:if>
 				</div>
-				<c:if test="${count < Constant.ITEM_RECORD_MAX}">
-				<form action="<%=request.getContextPath()%>/admin/item/regist/input" class="sign_up_form">
-					<input type="submit" value="<%=Constant.ITEM%>新規登録" class="menu_button" />
-				</form>
-				</c:if>
+				
 			</div>
 			<c:if test="${itemBeanList.size()>0}">
 			<table class="list_table item_list">
@@ -59,9 +55,7 @@
 					<th>
 						<%=Constant.CATEGORY%>
 					</th>
-					<th>
-						<%=Constant.LIST_TITLE_ACTION%>
-					</th>
+					
 				</tr>
 				<c:forEach var="itemBean" items="${itemBeanList}">
 				<tr>
