@@ -70,9 +70,12 @@
 					</form>
 				</c:if>
 				<c:if test="${itemDetailBean.stock>0 && user!=null}">
-					<form action="<%=request.getContextPath() %>/basket/list">
-						<input type="submit" value="買い物かごに入れる" />
-					</form>
+				<form action="<%=request.getContextPath()%>/basket/add" method="post">
+					<input type="hidden" name="id" value="${itemDetailBean.id}" /> 
+					<input type="hidden" name="name" value="${itemDetailBean.name}" /> 
+					<input type="hidden" name="stock" value="${itemDetailBean.stock}" /> 
+					<input type="submit" value="買い物かごに入れる" />
+				</form>
 				</c:if>
 				<form action="<%=request.getContextPath()%>/item/list" class="user_info_form">
 					<input type="hidden" name="sortType" value="${param.sortType}" />
