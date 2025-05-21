@@ -97,7 +97,21 @@ public class DBConstant {
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
 			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
 			+ " ORDER BY i.insert_date DESC,i.id ASC"; //$NON-NLS-1$
-
+	
+	/** 商品情報を全件検索（売れ筋順） */
+	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image,  c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" +" INNER JOIN order_items oi ON i.id = oi.item_id"+ " WHERE i.delete_flag =" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
+			+ " GROUP BY i.id, i.name, i.price, i.image, c.name " + " ORDER BY SUM(oi.quantity) DESC,i.id ASC"; //$NON-NLS-1$
+	
+	/** カテゴリIdに該当する商品情報を新着順で検索 */
+	public static final String SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.insert_date DESC,i.id ASC"; //$NON-NLS-1$;
+	/** カテゴリIdに該当する商品情報を売れ筋順で検索 */
+	public static final String SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " INNER JOIN order_items oi ON i.id = oi.item_id"+ " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " GROUP BY i.id, i.name, i.price, i.image, c.name " + " ORDER BY SUM(oi.quantity) DESC,i.id ASC"; //$NON-NLS-1$;
+	
 	/** 商品情報を商品IDで検索(商品詳細用) */
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_BY_ITEMID = "SELECT i.id, i.name, i.price, i.description,i.stock, i.image, c.id AS categoryId ,c.name AS categoryName FROM items i" //$NON-NLS-1$
 			+ " INNER JOIN categories c ON i.category_id=c.id " + " WHERE i.delete_flag=" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
@@ -116,6 +130,9 @@ public class DBConstant {
 
 	/** 商品情報の総件数を取得 */
 	public static final String SQL_SELECT_COUNT_ITEMS = "SELECT count(id) AS count FROM items"; //$NON-NLS-1$
+	
+	/**カテゴリIDに該当する商品情報の総件数を取得（追加）*/
+	public static final String SQL_SELECT_COUNT_ITEMS_BY_CATEGORY = "SELECT count(id) AS count FROM items " + " WHERE delete_flag =" + NOT_DELETED + " AND category_id = ?"; //$NON-NLS-1$
 
 	// カテゴリ関連(categoriesテーブル) SQL */
 	/** カテゴリ情報を全件検索(新着順) */

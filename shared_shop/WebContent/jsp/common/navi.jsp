@@ -10,12 +10,13 @@
 			</a>
 		</li>
 		<li>
-			<a href="<%=request.getContextPath()%>/item/list?sort=<%=Constant.SORT_LATEST%>">
+			<a href="<%=request.getContextPath()%>/item/list?sort=<%=Constant.SORT_LATEST%>" >
 				<%=Constant.ITEM%>一覧
+				<input type="hidden" name="sortType" value="${Constant.SORT_LATEST }">
 			</a>
 		</li>
 		<li>
-			<a href="<%=request.getContextPath()%>/basket/list">
+			<a href="<%=request.getContextPath()%>/basket/list" >
 				<%=Constant.BASKET%>
 			</a>
 		</li>

@@ -34,7 +34,7 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+		ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_ID);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			itemBeanList.add(getItemDataNoStock(rs));
@@ -57,11 +57,11 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-//		if (sortType.equals(Constant.SORT_LATEST)) {
+		if (sortType.equals(Constant.SORT_LATEST)) {
 		ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
-//		} else {
-//			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
-//		}
+		} else {
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+		}
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			itemBeanList.add(getItemDataNoStock(rs));
@@ -69,6 +69,60 @@ public class ItemDao {
 		DBManager.close(con, ps);
 		return itemBeanList;
 	}
+	
+	
+	/**
+	 * カテゴリIDに該当する情報を取得する(追加)
+	 */
+	public static List<ItemBean> findByCategoryId(int categoryId, String sortType) throws SQLException, ClassNotFoundException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		List<ItemBean> itemBeanList = new ArrayList<>();
+
+		con = DBManager.getConnection();
+		if (sortType.equals(Constant.SORT_LATEST)) {
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_INSERT_DATE);
+					ps.setInt(1, categoryId); 
+				}
+			} else {
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_ORDER_COUNT);
+					ps.setInt(1, categoryId); 
+				}
+			}
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				itemBeanList.add(getItemDataNoStock(rs));
+			}
+			DBManager.close(con, ps);
+			return itemBeanList;
+		
+	}
+	
+	/**
+	 * カテゴリIDに該当する商品情報の件数を取得する（追加）
+	 */
+	public static Integer getItemsCountByCategoryId(int categoryId) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		Integer count = null;
+
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_SELECT_COUNT_ITEMS_BY_CATEGORY);
+		ps.setInt(1, categoryId); 
+		ResultSet rs = ps.executeQuery();
+		if (rs.next()) {
+			count = rs.getInt("count");
+		}
+		DBManager.close(con, ps);
+		return count;
+	}
+	
 
 	/**
 	 * 商品Idに該当する情報を1件だけ取得する
@@ -151,6 +205,7 @@ public class ItemDao {
 		DBManager.close(con, ps);
 		return count;
 	}
+	
 
 	/**
 	 * 商品情報の追加

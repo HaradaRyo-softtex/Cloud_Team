@@ -9,7 +9,7 @@
 		<%=Constant.ITEM%>詳細 | <%=Constant.SHOP_TITLE%>
 	</title>
 </head>
-<body  class="client  item_detail">
+<body  class="user index">
 	<%@include file="/jsp/common/header.jsp" %>
 	<%@include file="/jsp/common/navi.jsp" %>
 	<div class="container side_wrap">
@@ -75,7 +75,9 @@
 					</form>
 				</c:if>
 				<form action="<%=request.getContextPath()%>/item/list" class="user_info_form">
+					<input type="hidden" name="sortType" value="${param.sortType}" />
 					<input type="submit" value="戻る"  class="back_button" />
+
 				</form>
 				
 				</div>

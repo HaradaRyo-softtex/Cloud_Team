@@ -11,7 +11,7 @@
 		<%=Constant.ITEM%>一覧 | <%=Constant.SHOP_TITLE%>
 	</title>
 </head>
-<body class="client  item_list">
+<body class="user index">
 	<%@include file="/jsp/common/header.jsp" %>
 	<%@include file="/jsp/common/navi.jsp" %>
 	<div class="container side_wrap">
@@ -19,9 +19,28 @@
 		<article class="main">
 			<h2 class="title">
 				<%=Constant.ITEM%>一覧
-			</h2>
+			</h2><br>
 
 			<div class="list_btn_wrap">
+				<%--新着順 売れ筋順--%>
+				<c:choose>
+					<c:when test="${sortType=='2'}">
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>">
+							<%=Constant.SORT_LATEST_STR %>
+						</a>
+						<span>
+							<%=Constant.SORT_HOTSELL_STR %>
+						</span>
+					</c:when>
+					<c:otherwise>	
+						<span>
+							<%=Constant.SORT_LATEST_STR %>
+						</span>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>">
+							<%=Constant.SORT_HOTSELL_STR %>
+						</a>
+					</c:otherwise>
+				</c:choose>
 				<div>
 				<c:if test="${Constant.ITEM_RECORD_MAX <= count}">
 				<br />
@@ -34,9 +53,10 @@
 						</li>
 					</ul>
 
-				</c:if>			
+				</c:if>		
+					
 				<c:if test="${itemBeanList==null || itemBeanList.size()==0}">
-					<p><%=Constant.ITEM+MSGConstant.MSG_ITEM_CLIENT_LIST_NONE %></p>
+					<p><%=MSGConstant.MSG_ITEM_CLIENT_LIST_NONE %></p>
 				</c:if>
 				</div>
 				
@@ -61,7 +81,7 @@
 				<c:forEach var="itemBean" items="${itemBeanList}">
 				<tr>
 					<td>
-						<img src="<%=request.getContextPath()%>/img/${itemBean.image}" />
+						<img src="<%=request.getContextPath()%>/img/${itemBean.image}" width="100" />
 					</td>
 					<td>
 						<a href="<%=request.getContextPath()%>/item/detail?id=${itemBean.id}">

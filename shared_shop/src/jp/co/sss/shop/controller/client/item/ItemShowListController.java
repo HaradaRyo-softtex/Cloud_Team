@@ -40,17 +40,39 @@ public class ItemShowListController extends HttpServlet {
 		session.removeAttribute("itemForm");
 		List<ItemBean> itemBeanList = new ArrayList<>();
 		Integer count = 0;
+		//ソート
+		String sortType = request.getParameter("sortType");
+		if (sortType == null || sortType.isEmpty()) {
+	        sortType = Constant.SORT_LATEST; // デフォルトで新着順
+	    }
+		//カテゴリ検索
+		String categoryIdStr = request.getParameter("categoryId");
+		if (categoryIdStr == null) {
+	        categoryIdStr = Constant.CATEGORY_SELECT_NONE_NO; // デフォルトで新着順
+	    }
+		 int categoryId = Integer.parseInt(categoryIdStr);
 
+
+		//商品表示
 		try {
-			itemBeanList = ItemDao.findAll(null);
+			if(categoryId == 0) {
+				itemBeanList = ItemDao.findAll(sortType);
+			}else {
+				itemBeanList = ItemDao.findByCategoryId(categoryId, sortType);
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
 			return;
 		}
+		
 		// 商品情報のレコード数を取得
 		try {
+			if(categoryId == 0) {
 			count = ItemDao.getItemsCount();
+			}else {
+				count = ItemDao.getItemsCountByCategoryId(categoryId);
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
@@ -59,6 +81,10 @@ public class ItemShowListController extends HttpServlet {
 		// 商品情報が最大件数の場合、登録ボタンを非表示にするために件数をＶｉｅｗに渡す
 		request.setAttribute("count", count);
 		request.setAttribute("itemBeanList", itemBeanList);
+		//sortTypeを切り替えるための値
+		request.setAttribute("sortType", sortType);
+		//categoryIdの値を受け渡す
+		request.setAttribute("categoryId", categoryId);
 		request.getRequestDispatcher("/jsp/client/item/list.jsp").forward(request, response);
 	}
 

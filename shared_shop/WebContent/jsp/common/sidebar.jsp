@@ -11,10 +11,10 @@
 			<form action="<%=request.getContextPath()%>/item/list">
 				<c:choose>
 				<c:when test="${sortType==null}" >
-					<input type="hidden" name="sort" value="<%=Constant.SORT_LATEST%>" />
+					<input type="hidden" name="sortType" value="<%=Constant.SORT_LATEST%>" />
 				</c:when>
 				<c:otherwise>
-					<input type="hidden" name="sort" value="${sortType}" />
+					<input type="hidden" name="sortType" value="${sortType}" />
 				</c:otherwise>
 				</c:choose>
 				<select name="categoryId">
