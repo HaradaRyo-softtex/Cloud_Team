@@ -70,6 +70,16 @@ public class Constant {
 	public static final String SORT_HOTSELL_STR = "売れ筋順"; //$NON-NLS-1$
 	/** 並び順の表示名称(トップ画面用) */
 	public static final String SORT_HOTSELL_TITLE = "売れ筋商品"; //$NON-NLS-1$
+	
+	//追加機能　価格順
+	/** 並び順の値(価格が安い順) */
+	public static final String SORT_PRICE_ASC = "3"; //$NON-NLS-1$
+	/** 並び順の表示名称(価格が安い順) */
+	public static final String SORT_PRICE_ASC_STR = "価格：安い順"; //$NON-NLS-1$
+	/** 並び順の値(価格が高い順) */
+	public static final String SORT_PRICE_DESC = "4"; //$NON-NLS-1$
+	/** 並び順の表示名称(価格が高い順) */
+	public static final String SORT_PRICE_DESC_STR = "価格：高い順"; //$NON-NLS-1$
 
 	/** 支払方法の選択肢(数値) クレジットカード */
 	public static final int PAYMETHOD_CREDIT = 1;

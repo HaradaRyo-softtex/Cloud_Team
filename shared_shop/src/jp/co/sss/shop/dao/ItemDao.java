@@ -57,9 +57,13 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		if (sortType.equals(Constant.SORT_LATEST)) {
+		if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
 		ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
-		} else {
+		}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+		}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+		}else { /**売れ筋順*/
 			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
 		}
 		ResultSet rs = ps.executeQuery();
@@ -72,7 +76,7 @@ public class ItemDao {
 	
 	
 	/**
-	 * カテゴリIDに該当する情報を取得する(喜田が追加)
+	 * カテゴリIDに該当する情報を取得する(トップ画面で使用　喜田が追加)
 	 */
 	public static List<ItemBean> findByCategoryId(int categoryId, String sortType) throws SQLException, ClassNotFoundException{
 		Connection con = null;
@@ -80,14 +84,28 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		if (sortType.equals(Constant.SORT_LATEST)) {
+		if (sortType.equals(Constant.SORT_LATEST)) { /**新着順の時*/
 				if(categoryId == 0) {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
 				}else {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_INSERT_DATE);
 					ps.setInt(1, categoryId); 
 				}
-			} else {
+			}else if(sortType.equals(Constant.SORT_PRICE_ASC)){ /**安い順の時（追加機能）*/
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_ASC);
+					ps.setInt(1, categoryId); 
+				}
+			}else if(sortType.equals(Constant.SORT_PRICE_DESC)) { /**高い順の時（追加機能）*/
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_DESC);
+					ps.setInt(1, categoryId); 
+				}
+			}else { /**売れ筋順の時*/
 				if(categoryId == 0) {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
 				}else {

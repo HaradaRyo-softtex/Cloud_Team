@@ -22,22 +22,62 @@
 			</h2><br>
 
 			<div class="list_btn_wrap">
-				<%--新着順 売れ筋順--%>
+				<%--新着順 売れ筋順 価格順--%>
 				<c:choose>
-					<c:when test="${sortType=='2'}">
+					<c:when test="${sortType=='2'}"> <%--売れ筋順の時　売れ筋順以外を表示 --%>
 						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>">
 							<%=Constant.SORT_LATEST_STR %>
 						</a>
 						<span>
 							<%=Constant.SORT_HOTSELL_STR %>
 						</span>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>">
+							<%=Constant.SORT_PRICE_ASC_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>">
+							<%=Constant.SORT_PRICE_DESC_STR %>
+						</a>
 					</c:when>
-					<c:otherwise>	
+					<c:when test="${sortType=='3'}"> <%--値段が安い順の時　安い順以外を表示 --%>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>">
+							<%=Constant.SORT_LATEST_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>">
+							<%=Constant.SORT_HOTSELL_STR %>
+						</a>
+						<span href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>">
+							<%=Constant.SORT_PRICE_ASC_STR %>
+						</span>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>">
+							<%=Constant.SORT_PRICE_DESC_STR %>
+						</a>
+					</c:when>
+					<c:when test="${sortType=='4'}"> <%--値段が高い順の時　高い順以外を表示 --%>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>">
+							<%=Constant.SORT_LATEST_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>">
+							<%=Constant.SORT_HOTSELL_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>">
+							<%=Constant.SORT_PRICE_ASC_STR %>
+						</a>
+						<span href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>">
+							<%=Constant.SORT_PRICE_DESC_STR %>
+						</span>
+					</c:when>
+					<c:otherwise> <%--新着順の時　新着順以外を表示 --%>	
 						<span>
 							<%=Constant.SORT_LATEST_STR %>
 						</span>
 						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>">
 							<%=Constant.SORT_HOTSELL_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>">
+							<%=Constant.SORT_PRICE_ASC_STR %>
+						</a>
+						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>">
+							<%=Constant.SORT_PRICE_DESC_STR %>
 						</a>
 					</c:otherwise>
 				</c:choose>

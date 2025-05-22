@@ -101,6 +101,16 @@ public class DBConstant {
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
 			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
 			+ " ORDER BY i.insert_date DESC,i.id ASC"; //$NON-NLS-1$
+	//追加機能
+	/** 商品情報を全件検索(価格が安い順) */
+	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price ASC,i.id ASC"; //$NON-NLS-1$
+	//追加機能
+	/** 商品情報を全件検索(価格が高い順) */
+	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price DESC,i.id ASC"; //$NON-NLS-1$
 	
 	/** 商品情報を全件検索（売れ筋順） */
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image,  c.name AS categoryName FROM items i" //$NON-NLS-1$
@@ -115,6 +125,16 @@ public class DBConstant {
 	public static final String SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
 			+ " INNER JOIN categories c ON i.category_id=c.id" + " INNER JOIN order_items oi ON i.id = oi.item_id"+ " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
 			+ " GROUP BY i.id, i.name, i.price, i.image, c.name " + " ORDER BY SUM(oi.quantity) DESC,i.id ASC"; //$NON-NLS-1$;
+	//追加機能
+	/** カテゴリIdに該当する商品情報を価格が安い順で検索 */
+	public static final String SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_ASC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price ASC,i.id ASC"; //$NON-NLS-1$;
+	//追加機能
+	/** カテゴリIdに該当する商品情報を価格が高い順で検索 */
+	public static final String SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_DESC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price DESC,i.id ASC"; //$NON-NLS-1$;
 	
 	/** 商品情報を商品IDで検索(商品詳細用) */
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_BY_ITEMID = "SELECT i.id, i.name, i.price, i.description,i.stock, i.image, c.id AS categoryId ,c.name AS categoryName FROM items i" //$NON-NLS-1$
