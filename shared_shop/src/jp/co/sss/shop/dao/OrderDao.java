@@ -12,6 +12,9 @@ import jp.co.sss.shop.bean.OrderBean;
 import jp.co.sss.shop.bean.OrderDetailBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.DBConstant;
+import jp.co.sss.shop.dto.OrderDetail;
+import jp.co.sss.shop.dto.OrderItem;
+import jp.co.sss.shop.dto.OrdersSum;
 
 /**
  * 注文情報テーブルを操作するクラス
@@ -44,22 +47,89 @@ public class OrderDao {
 	}
 	
 	// 小島和也 追記 2025/5/19
-	public static List<OrderBean> findAllByOrderIdIncludeUserName() 
+	public static List<OrdersSum> findAllByOrderIdIncludeUserName(int userId) 
 			throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		PreparedStatement ps = null;
-		List<OrderBean> orderList = new ArrayList<>();
+		List<OrdersSum> ordersumList = new ArrayList<>();
 		
 		con = DBManager.getConnection();
-		ps = con.prepareStatement(DBConstant.SQL_SELECT_ORDERS_BY_USERID_ORDER_BY_INSERT_DATE);
+		ps = con.prepareStatement("select insert_date, pay_method, order_id, SUM(price*quantity) as sum from orders inner join order_items on orders.id = order_items.id group by insert_date, pay_method, order_id order by insert_date asc");
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
-			orderList.add(getOrderData(rs));
+//			private Date date;
+//			private int pay_method;
+//			private int order_id;
+//			private int sum;
+			OrdersSum orderssum = new OrdersSum();
+			orderssum.setDate(rs.getDate("insert_date"));
+			orderssum.setPay_method(rs.getInt("pay_method"));
+			orderssum.setOrder_id(rs.getInt("order_id"));
+			orderssum.setSum(rs.getInt("sum"));
+			ordersumList.add(orderssum);
+			
 		}
 		DBManager.close(con, ps);
-		return orderList;
+		return ordersumList;
 	}
+	
+	// 小島和也　追記 5/21
+	public static List<OrderDetail> findOrderDetails(int user_id) 
+			throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps1 = null;
+//		PreparedStatement ps2 = null;
+		List<OrderDetail> orderDetailList = new ArrayList<>();
+		
+		con = DBManager.getConnection();
+		ps1 = con.prepareStatement("select insert_date, pay_method, address, postal_code, name, phone_number from orders where id = 1");
+//		ps2 = con.prepareStatement("select o.item_id, o.price, o.quantity, SUM(o.price*quantity) as sum from order_items o inner join items i on i.id = o.item_id where order_id = 1 group by o.item_id, o.price, o.quantity");
+		ResultSet rs1 = ps1.executeQuery();
+//		ResultSet rs2 = ps2.executeQuery();
+		
+		while (rs1.next()) {
 
+			
+			OrderDetail orderdetail = new OrderDetail();
+			orderdetail.setInsert_date(rs1.getDate("insert_date"));
+			orderdetail.setPay_method(rs1.getInt("pay_method"));
+			orderdetail.setPostal_code(rs1.getString("postal_code"));
+			orderdetail.setAddress(rs1.getString("address"));
+			orderdetail.setName(rs1.getString("name"));
+			orderdetail.setPhone_number(rs1.getString("phone_number"));
+			orderDetailList.add(orderdetail);
+		}
+		
+//		
+		
+		DBManager.close(con, ps1);
+//		DBManager.close(con, ps2);
+		return orderDetailList;
+	}
+	public static List<OrderItem> findOrderItem(int orderid) 
+			throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps2 = null;
+		List<OrderItem> orderItemList = new ArrayList<>();
+		
+		con = DBManager.getConnection();
+		ps2 = con.prepareStatement("select i.name, o.item_id, o.price, o.quantity, SUM(o.price*quantity) as sum from order_items o inner join items i on i.id = o.item_id where order_id = ? group by i.name, o.item_id, o.price, o.quantity");
+		ps2.setInt(1, orderid);
+		ResultSet rs2 = ps2.executeQuery();
+		
+		while (rs2.next()) {
+			OrderItem orderItem = new OrderItem();
+			orderItem.setId(rs2.getInt("item_id"));
+			orderItem.setName(rs2.getString("name"));
+		orderItem.setPrice(rs2.getInt("price"));
+			orderItem.setQuantity(rs2.getInt("quantity"));
+			orderItem.setSum(rs2.getInt("sum"));
+			
+		orderItemList.add(orderItem);	
+		}
+		DBManager.close(con, ps2);
+		return orderItemList;
+	}
 	/**
 	 * 注文Idに該当する注文情報を1件だけ取得する(管理者向け,会員氏名を含む)
 	 *

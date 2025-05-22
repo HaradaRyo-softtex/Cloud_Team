@@ -1,4 +1,4 @@
-package jp.co.sss.shop.controller.dient.order;
+package jp.co.sss.shop.controller.client.order;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,40 +16,41 @@ import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.URLConstant;
 import jp.co.sss.shop.dao.OrderDao;
-import jp.co.sss.shop.dto.OrdersSum;
+import jp.co.sss.shop.dto.OrderDetail;
+import jp.co.sss.shop.dto.OrderItem;
 /**
- * Servlet implementation class OrderShowListController
+ * Servlet implementation class OrderShowDetailController
  */
-@WebServlet("/order/list")
-public class OrderShowListController extends HttpServlet {
-	/** シリアルID */
+@WebServlet("/order/detail")
+public class OrderShowDetailController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * DBから商品情報一覧を取得し表示する
-	 * 
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		List<OrdersSum> orderSumList = new ArrayList<>();
+		
+		List<OrderDetail> orderDetailsList = new ArrayList<>();
+		List<OrderItem> orderItemList = new ArrayList<>();
 		
 		try {
 			HttpSession session = request.getSession();
 			UserBean user_bean =  (UserBean) session.getAttribute("user");
 			int user_id = user_bean.getId();
-			orderSumList = OrderDao.findAllByOrderIdIncludeUserName(user_id);
-
+			orderDetailsList = OrderDao.findOrderDetails(user_id);
+			orderItemList = OrderDao.findOrderItem(user_id);
+			System.out.println(orderItemList);
 		} catch (ClassNotFoundException | SQLException e) {
-
+			
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
 			return;
 		}
-		request.setAttribute("orderSumList", orderSumList);
-		request.getRequestDispatcher("/jsp/client/order/list.jsp").forward(request, response);
+		request.setAttribute("orderDetailsList", orderDetailsList);
+		request.setAttribute("orderItemList", orderItemList);
+		request.getRequestDispatcher("/jsp/client/order/detail.jsp").forward(request, response);
 	}
 
 	/**
