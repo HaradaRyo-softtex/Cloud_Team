@@ -1,0 +1,99 @@
+/* shared_shop\WebContent\jsp\client\basket\list.jspで使用 */
+.basket_table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 50px;
+}
+
+.basket_table th {
+	background-color: #add8e6;
+	padding: 10px 8px;
+	border: none;
+	text-align: center;
+	/* 白色で縦線風に区切りをつける */
+	box-shadow: inset -1px 0 0 0 white;
+}
+
+.basket_table th:last-child {
+	/* 最後の列は右側の線不要 */
+	box-shadow: none;
+}
+
+.basket_table td {
+	background-color: #ffffff;
+	padding: 10px 8px;
+	border: none;
+	text-align: center;
+}
+
+.basket_table tr:nth-child(even) td {
+	background-color: #f0f8fb;
+}
+
+.basket_table tr {
+	line-height: 1.6;
+}
+
+/* 商品名は左寄せで、少し左マージン */
+.basket_table td:nth-child(1) {
+	text-align: left;
+	padding-left: 12px;
+}
+
+/* 数量と操作は幅を内容に合わせる */
+.basket_table th:nth-child(2),
+.basket_table td:nth-child(2),
+.basket_table th:nth-child(3),
+.basket_table td:nth-child(3) {
+	white-space: nowrap;
+	width: 1%;
+}
+
+/* 在庫状況は残り幅を占める */
+.basket_table th:nth-child(4),
+.basket_table td:nth-child(4) {
+	width: auto;
+	text-align: center;
+}
+
+.btn-red {
+	background: linear-gradient(to bottom, #ff6666, #990000);
+	color: white;
+	padding: 8px 15px;
+	border: none;
+	cursor: pointer;
+	border-radius: 4px;
+	text-align: center;
+	font-size: 14px;
+}
+
+.btn-red:hover {
+	opacity: 0.9;
+}
+
+.btn-white {
+	background-color: white;
+	color: #355a70;
+	padding: 8px 15px;
+	border: 1.5px solid #555;
+	cursor: pointer;
+	border-radius: 4px;
+	text-decoration: none;
+	font-size: 14px;
+}
+
+.btn-white:hover {
+	background-color: #f5f5f5;
+}
+
+.actions {
+	margin-top: 20px;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
