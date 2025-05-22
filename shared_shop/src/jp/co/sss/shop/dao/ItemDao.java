@@ -72,7 +72,7 @@ public class ItemDao {
 	
 	
 	/**
-	 * カテゴリIDに該当する情報を取得する(追加)
+	 * カテゴリIDに該当する情報を取得する(喜田が追加)
 	 */
 	public static List<ItemBean> findByCategoryId(int categoryId, String sortType) throws SQLException, ClassNotFoundException{
 		Connection con = null;
@@ -105,7 +105,7 @@ public class ItemDao {
 	}
 	
 	/**
-	 * カテゴリIDに該当する商品情報の件数を取得する（追加）
+	 * カテゴリIDに該当する商品情報の件数を取得する（喜田が追加）
 	 */
 	public static Integer getItemsCountByCategoryId(int categoryId) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -122,6 +122,29 @@ public class ItemDao {
 		DBManager.close(con, ps);
 		return count;
 	}
+	
+	/**
+	 * 注文情報があるかどうかを判定する（喜田が追加）
+	 */
+	public static boolean existsOrderItems() throws SQLException, ClassNotFoundException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    boolean exists = false;
+
+        con = DBManager.getConnection();
+        ps = con.prepareStatement(DBConstant.SQL_SELECT_COUNT_ORDER_ITEMS);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            exists = count > 0; // 注文商品が1件以上あれば true
+        }
+    
+        DBManager.close(con, ps);
+	    return exists;
+	}
+
 	
 
 	/**

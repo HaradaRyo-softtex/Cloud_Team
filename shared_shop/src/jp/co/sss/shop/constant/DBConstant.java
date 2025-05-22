@@ -71,6 +71,10 @@ public class DBConstant {
 	/** 注文商品登録 */
 	public static final String SQL_INSERT_ORDERITEM = "INSERT INTO order_items VALUES(seq_order_items.NEXTVAL,?,?,?,?)"; //$NON-NLS-1$
 
+	//喜田が追加
+	/**注文商品が存在するか確認する　トップ画面で使用*/
+	public static final String SQL_SELECT_COUNT_ORDER_ITEMS = "SELECT count(id) AS count FROM order_items";
+	
 	/** 注文関連(ordersテーブル) SQL */
 
 	/** 会員Idに該当する注文情報を注文日付順で検索 一般会員の注文一覧表示で利用 */
