@@ -27,7 +27,7 @@
 					</a>さん
 				</c:when>
 				<c:otherwise>
-					<a href="<%=request.getContextPath()%>/admin/user/detail?id=${user.id}">
+					<a href="<%=request.getContextPath()%>/admin/user/detail">
 						<c:out value="${user.name}"/>
 					</a>さん
 				</c:otherwise>
