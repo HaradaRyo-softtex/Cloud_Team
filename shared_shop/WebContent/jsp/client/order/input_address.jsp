@@ -60,7 +60,7 @@
 						<input type="submit" value="次へ" class="send_button" />
 						<input type="hidden" name="backflg" value="0" />
 					</form>
-					<form action="<%=request.ContextPath() %>/basket/list">
+					<form action="<%=request.getContextPath() %>/basket/list">
 						<input type="submit" value="戻る" class="back_button" />
 					</form>
 				</div>
