@@ -16,6 +16,12 @@ public class OrderItem {
 	 * 注文商品ID
 	 */
 	private Integer itemId;
+	
+	/**
+	 * 商品名
+	 */
+	private String name;
+	
 	/**
 	 * 価格
 	 */
@@ -29,6 +35,24 @@ public class OrderItem {
 	 * 注文ID
 	 */
 	private Integer orderId;
+	
+	/**
+	 * 小計
+	 */
+	private Integer sum;
+	
+	/**
+	 * 合計
+	 */
+	private Integer total;
+
+	public Integer getSum() {
+		return sum;
+	}
+
+	public void setSum(Integer sum) {
+		this.sum = sum;
+	}
 
 	/**
 	 * 注文商品IDの取得
@@ -119,6 +143,21 @@ public class OrderItem {
 	 */
 	public void setPrice(Integer price) {
 		this.price = price;
+	}
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 
 }
