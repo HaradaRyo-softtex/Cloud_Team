@@ -17,6 +17,7 @@
 			<h2 class="title" style="font-size: 24px;">
 				<%=Constant.ORDER%>お届け先入力
 			</h2>
+<<<<<<< HEAD
 			<p class="input_message">お届け先情報を入力してください。</p>
 			<div class="user_info_form_area">
 				<form action="<%=request.getContextPath()%>/order/address/input"
@@ -54,4 +55,49 @@
 	</div>
 	<%@include file="/jsp/common/footer.jsp"%>
 </body>
+=======
+				<p class="input_message">
+				お届け先情報を入力してください。
+				</p>
+				<div class="user_info_form_area">
+					<form action="<%=request.getContextPath() %>/order/address/input" method="post" >
+						<br />
+						<ul class="input_list">
+							<li>
+								<label>
+									<span class="input_title"><%= Constant.DATA_POSTALCODE %></span>
+									<input type="text" name="postalCode" value=""/>
+								</label>
+							</li>
+							<li>
+								<label>
+									<span class="input_title"><%= Constant.DATA_ADDRESS %></span>
+									<textarea name="address" rows="6"></textarea>
+								</label>
+							</li>
+							<li>
+								<label>
+									<span class="input_title"><%= Constant.DATA_USERNAME %></span>
+									<input type="text" name="name" value=""/>
+								</label>
+							</li>
+							<li>
+								<label>
+									<span class="input_title"><%= Constant.DATA_PHONENUMBER %></span>
+									<input type="text" name="phoneNumber" value=""/>
+								</label>
+							</li>
+						</ul>
+						<input type="submit" value="次へ" class="send_button" />
+						<input type="hidden" name="backflg" value="0" />
+					</form>
+					<form action="<%=request.getContextPath() %>/basket/list">
+						<input type="submit" value="戻る" class="back_button" />
+					</form>
+				</div>
+			</article>
+		</div>
+		<%@include file="/jsp/common/footer.jsp"%>
+	</body>
+>>>>>>> b78f823722bd6a07d45d1616c7c3d913b1e235be
 </html>
