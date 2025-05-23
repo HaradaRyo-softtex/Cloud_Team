@@ -18,7 +18,7 @@
 					お支払い方法選択
 				</h2>
 				<div class="user_info_form_area">
-					<form method="post" action="/shared_shop/order/confirm">
+					<form method="post" action="<%=request.getContextPath()%>/order/payment/input">
 						<ul class="payment_method_select">
 							<li>
 								<label class="radio_label"><input type="radio" name="payMethod" value="1" checked="checked"/><%= Constant.PAYMETHOD_CREDIT_STR %></label>
@@ -36,11 +36,11 @@
 								<label class="radio_label"><input type="radio" name="payMethod" value="5" /><%= Constant.PAYMETHOD_CONVENIENCE_STR %></label>
 							</li>
 						</ul>
-						<input type="hidden" name="backflg" value="0" />
+						<input type="hidden" name="backflg" value="off" />
 						<input type="submit" class="send_button" value="次へ" />
 					</form>
 					<form method="post" action="/shared_shop/order/address/input" class="update">
-						<input type="hidden" name="backflg" value="1" />
+						<input type="hidden" name="backflg" value="on" />
 						<input type="submit" class="back_button" value="戻る" />
 					</form>
 				</div>
