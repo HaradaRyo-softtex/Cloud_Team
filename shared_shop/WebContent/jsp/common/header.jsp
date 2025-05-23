@@ -22,12 +22,17 @@
 			<c:otherwise>
 				<c:choose>
 				<c:when test="${user.authority==Constant.AUTH_CLIENT}">
+					<%-- お気に入りページリンク先 --%>
+					<a href="<%=request.getContextPath()%>/favorite/list" style="margin-right: 8px;">
+								<img src="<%=request.getContextPath()%>/img/heart.png" alt="お気に入り一覧"
+								     style="width: 16px; height: 16px;">
+							</a>
 					<a href="<%=request.getContextPath()%>/user/detail">
 						<c:out value="${user.name}"/>
 					</a>さん
 				</c:when>
 				<c:otherwise>
-					<a href="<%=request.getContextPath()%>/admin/user/detail">
+					<a href="<%=request.getContextPath()%>/admin/user/detail?id=${user.id}">
 						<c:out value="${user.name}"/>
 					</a>さん
 				</c:otherwise>
