@@ -12,6 +12,7 @@ import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.MSGConstant;
 import jp.co.sss.shop.dao.UserDao;
+import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.form.UserForm;
 
 /**
@@ -136,4 +137,60 @@ public class UserInputValid {
 		return false;
 	}
 
+	public static List<String> orderInputErrorMessageList(OrderForm orderform)
+			throws ClassNotFoundException, SQLException {
+		List<String> errorMessageList = new ArrayList<>();
+		
+		String name = orderform.getName();
+		String postalCode = orderform.getPostalCode();
+		String address = orderform.getAddress();
+		String phoneNumber = orderform.getPhoneNumber();
+
+		// ****** 郵便番号のチェック ****** //
+		if (CommonValid.isEmpty(postalCode)) {
+			// 未入力チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_REQUIRED, Constant.DATA_POSTALCODE));
+		} else if (CommonValid.isPatternMisMatch(postalCode, Constant.POSTALCODE_PATTERN)) {
+			// 形式チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_NUM_ONLY, Constant.DATA_POSTALCODE));
+		} else if (CommonValid.overRange(postalCode, Constant.POSTALCODE_LENGTH_MIN, Constant.POSTALCODE_LENGTH_MAX)) {
+			// 桁数の範囲チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_OVERRANGE_STR, Constant.DATA_POSTALCODE,
+					Constant.POSTALCODE_LENGTH_MIN, Constant.POSTALCODE_LENGTH_MAX));
+		}
+		// ****** 住所のチェック ****** //
+		if (CommonValid.isEmpty(address)) {
+			// 未入力チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_REQUIRED, Constant.DATA_ADDRESS));
+		} else if (CommonValid.overRange(address, Constant.ADDRESS_LENGTH_MIN, Constant.ADDRESS_LENGTH_MAX)) {
+			// 桁数の範囲チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_OVERRANGE_STR, Constant.DATA_ADDRESS,
+					Constant.ADDRESS_LENGTH_MIN, Constant.ADDRESS_LENGTH_MAX));
+		}
+		// ****** 名前のチェック ****** //
+		if (CommonValid.isEmpty(name)) {
+			// 未入力チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_REQUIRED, Constant.DATA_USERNAME));
+		} else if (CommonValid.overRange(name, Constant.USERNAME_LENGTH_MIN, Constant.USERNAME_LENGTH_MAX)) {
+			// 桁数の範囲チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_OVERRANGE_STR, Constant.DATA_USERNAME,
+					Constant.USERNAME_LENGTH_MIN, Constant.USERNAME_LENGTH_MAX));
+		}
+
+		// ****** 電話番号のチェック ****** //
+		if (CommonValid.isEmpty(phoneNumber)) {
+			// 未入力チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_REQUIRED, Constant.DATA_PHONENUMBER));
+		} else if (CommonValid.isPatternMisMatch(phoneNumber, Constant.PHONENUMBER_PATTERN)) {
+			// 形式チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_NUM_ONLY, Constant.DATA_PHONENUMBER));
+		} else if (CommonValid.overRange(phoneNumber, Constant.PHONENUMBER_LENGTH_MIN,
+				Constant.PHONENUMBER_LENGTH_MAX)) {
+			// 桁数の範囲チェック
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_OVERRANGE_STR, Constant.DATA_PHONENUMBER,
+					Constant.PHONENUMBER_LENGTH_MIN, Constant.PHONENUMBER_LENGTH_MAX));
+		}
+
+		return errorMessageList;
+	}
 }
