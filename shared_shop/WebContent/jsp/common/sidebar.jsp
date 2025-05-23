@@ -2,6 +2,31 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="jp.co.sss.shop.constant.Constant" %>
+<style>/* バナー画像リンクのスタイル */
+.special_link {
+  display: block;
+  text-align: center;
+  margin-bottom: 16px; /* 下に間隔を空ける */
+}.special_link img {
+  width: 180px;
+  height: 130px;
+  object-fit: contain;
+  background-color: #f8f8f8; /* 背景色追加で空白が気にならないように */
+  display: block;
+  margin: 0 auto 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+}
+
+
+
+.special_link:hover img {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+  filter: brightness(1.05); /* ほんの少し明るく */
+}
+</style>
 <aside class="search">
 	<div class="search_area">
 		<h2 class="title">
@@ -31,6 +56,23 @@
 				<input type="submit" value="検索" />
 			</form>
 		</div>
+		
+		<div>
+			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+				<img src="<%=request.getContextPath()%>/img/bnr_250030_180_130.webp" alt="新鮮な野菜・果物" />
+			</a>
+		</div>
+		<div>
+			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+				<img src="<%=request.getContextPath()%>/img/vegetable.jpg" alt="新鮮な野菜" />
+			</a>
+		</div>
+		<div>
+			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+				<img src="<%=request.getContextPath()%>/img/test.webp" alt="新鮮な果物" />
+			</a>
+		</div>
+		
 	</div>
 </aside>
 

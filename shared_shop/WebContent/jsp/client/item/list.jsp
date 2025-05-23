@@ -81,7 +81,8 @@
 				<c:forEach var="itemBean" items="${itemBeanList}">
 				<tr>
 					<td>
-						<img src="<%=request.getContextPath()%>/img/${itemBean.image}" width="100" />
+						<img src="<%=request.getContextPath()%>/img/${itemBean.image}" style="max-width:100px; max-height:100px; width:auto; height:auto;" />
+
 					</td>
 					<td>
 						<a href="<%=request.getContextPath()%>/item/detail?id=${itemBean.id}">

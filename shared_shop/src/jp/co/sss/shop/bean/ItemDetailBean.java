@@ -51,6 +51,11 @@ public class ItemDetailBean implements Serializable {
 	private String categoryName;
 
 	/**
+     * お気に入り登録状態
+     */
+    private boolean favorite;
+	
+	/**
 	 * 商品IDの取得
 	 * 
 	 * @return 商品ID
@@ -194,4 +199,24 @@ public class ItemDetailBean implements Serializable {
 		this.categoryName = categoryName;
 	}
 
+	
+    /**
+     * 原田記入
+     * 追加機能
+     * お気に入り登録状態の取得
+     * 
+     * @return お気に入り登録状態(true: 登録済み、false: 未登録)
+     */
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    /**
+     * お気に入り登録状態のセット
+     * 
+     * @param favorite お気に入り登録状態(true: 登録済み、false: 未登録)
+     */
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 }

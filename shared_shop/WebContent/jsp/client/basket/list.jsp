@@ -6,10 +6,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="/jsp/common/head.jsp"%>
-<title><%=Constant.TOP%> | <%=Constant.SHOP_TITLE%></title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/basket.css">
+	<%@ include file="/jsp/common/head.jsp"%>
+	<title><%=Constant.TOP%> | <%=Constant.SHOP_TITLE%></title>
 </head>
 <body class="user index">
 	<%@ include file="/jsp/common/header.jsp"%>
@@ -17,22 +15,27 @@
 
 	<div class="container side_wrap">
 		<%@ include file="/jsp/common/sidebar.jsp"%>
+
 		<article class="main">
+
+			<!-- 買い物かごが空の場合の表示 -->
 			<c:if test="${empty basket}">
-				<p style="font-size: 16px;"><%=MSGConstant.MSG_BASKET_LIST_NONE%></p>
+				<p><%=MSGConstant.MSG_BASKET_LIST_NONE%></p>
 			</c:if>
 
+			<!-- 買い物かごに商品がある場合の表示 -->
 			<c:if test="${not empty basket}">
 				<h2 class="title">買い物かご</h2>
 
-				<!-- 追加時在庫エラー -->
+				<!-- 商品追加時に在庫切れエラーが発生した場合のメッセージ表示 -->
 				<c:if test="${not empty sessionScope.addErrorItemName}">
 					<p class="error">
 						「${sessionScope.addErrorItemName}」<%=MSGConstant.MSG_BASKET_STOCK_SHORT%></p>
+					<!-- メッセージ表示後にセッションから削除 -->
 					<c:remove var="addErrorItemName" scope="session" />
 				</c:if>
 
-				<!-- 表示時に在庫0の警告 -->
+				<!-- 買い物かご表示時に在庫0のアイテムに対して警告を表示 -->
 				<c:forEach var="item" items="${basket}">
 					<c:if test="${item.stock == 0}">
 						<p class="error">
@@ -40,7 +43,8 @@
 					</c:if>
 				</c:forEach>
 
-				<table class="basket_table">
+				<!-- 買い物かごの商品一覧表示 -->
+				<table class="list_table basket">
 					<thead>
 						<tr>
 							<th>商品名</th>
@@ -52,38 +56,52 @@
 					<tbody>
 						<c:forEach var="item" items="${basket}">
 							<tr>
-								<td><a
-									href="${pageContext.request.contextPath}/item/detail?id=${item.id}">${item.name}</a></td>
-								<td>${item.orderNum}</td>
+								<!-- 商品詳細ページへのリンク付き商品名 -->
 								<td>
-									<form action="${pageContext.request.contextPath}/basket/delete"
-										method="post">
-										<input type="hidden" name="itemId" value="${item.id}" /> 
-										<input type="submit" value="削除" class="btn-red" />
+									<a href="${pageContext.request.contextPath}/item/detail?id=${item.id}">
+										${item.name}
+									</a>
+								</td>
+
+								<!-- 注文数量 -->
+								<td>${item.orderNum}</td>
+
+								<!-- 商品削除ボタン（POST） -->
+								<td>
+									<form action="${pageContext.request.contextPath}/basket/delete" method="post">
+										<input type="hidden" name="itemId" value="${item.id}" />
+										<input type="submit" value="削除" class="delete" />
 									</form>
 								</td>
-								<td><c:choose>
+
+								<!-- 在庫状況の表示 -->
+								<td>
+									<c:choose>
 										<c:when test="${item.stock >= 6}">在庫あり</c:when>
 										<c:when test="${item.stock >= 1 && item.stock <= 5}">在庫数: ${item.stock}</c:when>
 										<c:otherwise>在庫切れ</c:otherwise>
-									</c:choose></td>
+									</c:choose>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
 
-				<div class="actions">
-					<a href="${pageContext.request.contextPath}/checkout"
-						class="btn-white">ご注文のお手続き</a>
-					<form action="${pageContext.request.contextPath}/basket/deleteAll"
-						method="post">
-						<input type="submit" value="<%=MSGConstant.MSG_BASKET_EMPTY%>" class="btn-red" />
-					</form>
-				</div>
+				<!-- 注文手続きボタン（注文情報入力画面へ遷移） -->
+				<form action="${pageContext.request.contextPath}/order/address/input" method="post">
+					<input type="submit" value="ご注文のお手続き" class="" />
+				</form>
+
+				<!-- 買い物かごを空にするボタン -->
+				<form action="${pageContext.request.contextPath}/basket/deleteAll" method="post">
+					<input type="submit" value="<%=MSGConstant.MSG_BASKET_EMPTY%>" class="delete" />
+				</form>
+
 			</c:if>
 		</article>
 	</div>
 
+	<!-- フッターの読み込み -->
 	<%@ include file="/jsp/common/footer.jsp"%>
 </body>
 </html>
