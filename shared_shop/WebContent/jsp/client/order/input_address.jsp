@@ -26,33 +26,25 @@
 						<ul class="input_list">
 							<li>
 								<label>
-									<span class="input_title">
-										郵便番号
-									</span>
+									<span class="input_title"><%= Constant.DATA_POSTALCODE %></span>
 									<input type="text" name="postalCode" value=""/>
 								</label>
 							</li>
 							<li>
 								<label>
-									<span class="input_title">
-										住所
-									</span>
+									<span class="input_title"><%= Constant.DATA_ADDRESS %></span>
 									<textarea name="address" rows="6"></textarea>
 								</label>
 							</li>
 							<li>
 								<label>
-									<span class="input_title">
-										氏名
-									</span>
+									<span class="input_title"><%= Constant.DATA_USERNAME %></span>
 									<input type="text" name="name" value=""/>
 								</label>
 							</li>
 							<li>
 								<label>
-									<span class="input_title">
-										電話番号
-									</span>
+									<span class="input_title"><%= Constant.DATA_PHONENUMBER %></span>
 									<input type="text" name="phoneNumber" value=""/>
 								</label>
 							</li>
