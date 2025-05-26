@@ -57,9 +57,13 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		if (sortType.equals(Constant.SORT_LATEST)) {
+		if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
 		ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
-		} else {
+		}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+		}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+		}else { /**売れ筋順*/
 			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
 		}
 		ResultSet rs = ps.executeQuery();
@@ -72,7 +76,7 @@ public class ItemDao {
 	
 	
 	/**
-	 * カテゴリIDに該当する情報を取得する(追加)
+	 * カテゴリIDに該当する情報を取得する(喜田が追加)
 	 */
 	public static List<ItemBean> findByCategoryId(int categoryId, String sortType) throws SQLException, ClassNotFoundException{
 		Connection con = null;
@@ -80,14 +84,28 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		if (sortType.equals(Constant.SORT_LATEST)) {
+		if (sortType.equals(Constant.SORT_LATEST)) { /**新着順の時*/
 				if(categoryId == 0) {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
 				}else {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_INSERT_DATE);
 					ps.setInt(1, categoryId); 
 				}
-			} else {
+			}else if(sortType.equals(Constant.SORT_PRICE_ASC)){ /**安い順の時（追加機能）*/
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_ASC);
+					ps.setInt(1, categoryId); 
+				}
+			}else if(sortType.equals(Constant.SORT_PRICE_DESC)) { /**高い順の時（追加機能）*/
+				if(categoryId == 0) {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else {
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_CATEGORIES_ORDER_BY_PRICE_DESC);
+					ps.setInt(1, categoryId); 
+				}
+			}else { /**売れ筋順の時*/
 				if(categoryId == 0) {
 					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
 				}else {
@@ -105,7 +123,51 @@ public class ItemDao {
 	}
 	
 	/**
-	 * カテゴリIDに該当する商品情報の件数を取得する（追加）
+	 * seasonTypeに該当する商品を取得（喜田が追加）
+	 * @param sortType
+	 * @param seasonType
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public static List<ItemBean> findBySeasonType(String sortType, String seasonType) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		List<ItemBean> itemBeanList = new ArrayList<>();
+
+		con = DBManager.getConnection();
+		if("1".equals(seasonType)) { /**旬が6,7,8月のいずれかを含む*/
+			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+			}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+			}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+			}else { /**売れ筋順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+			}
+		}else if("2".equals(seasonType)) { /**旬が5月を含む*/
+			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+				}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+				}else { /**売れ筋順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+				}
+		}
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			itemBeanList.add(getItemDataNoStock(rs));
+		}
+		DBManager.close(con, ps);
+		return itemBeanList;
+	}
+	
+	
+	/**
+	 * カテゴリIDに該当する商品情報の件数を取得する（喜田が追加）
 	 */
 	public static Integer getItemsCountByCategoryId(int categoryId) throws SQLException, ClassNotFoundException {
 		Connection con = null;
@@ -123,6 +185,27 @@ public class ItemDao {
 		return count;
 	}
 	
+	/**
+	 * 注文情報があるかどうかを判定する（喜田が追加）
+	 */
+	public static boolean existsOrderItems() throws SQLException, ClassNotFoundException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    ResultSet rs = null;
+	    boolean exists = false;
+
+        con = DBManager.getConnection();
+        ps = con.prepareStatement(DBConstant.SQL_SELECT_COUNT_ORDER_ITEMS);
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            int count = rs.getInt("count");
+            exists = count > 0; // 注文商品が1件以上あれば true
+        }
+    
+        DBManager.close(con, ps);
+	    return exists;
+	}
 
 	/**
 	 * 商品Idに該当する情報を1件だけ取得する
