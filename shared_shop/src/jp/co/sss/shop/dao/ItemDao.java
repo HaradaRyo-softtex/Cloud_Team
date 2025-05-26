@@ -136,7 +136,7 @@ public class ItemDao {
 		List<ItemBean> itemBeanList = new ArrayList<>();
 
 		con = DBManager.getConnection();
-		if("1".equals(seasonType)) {
+		if("1".equals(seasonType)) { /**旬が6,7,8月のいずれかを含む*/
 			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
 			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
 			}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
@@ -146,7 +146,7 @@ public class ItemDao {
 			}else { /**売れ筋順*/
 				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
 			}
-		}else if("2".equals(seasonType)) {
+		}else if("2".equals(seasonType)) { /**旬が5月を含む*/
 			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
 				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
 				}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
@@ -206,10 +206,6 @@ public class ItemDao {
         DBManager.close(con, ps);
 	    return exists;
 	}
-
-	/**
-	 * 
-	 */
 
 	/**
 	 * 商品Idに該当する情報を1件だけ取得する
