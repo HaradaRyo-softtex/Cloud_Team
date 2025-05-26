@@ -25,41 +25,41 @@
 				<%--新着順 売れ筋順 価格順--%>
 				<c:choose>
 					<c:when test="${sortType=='2'}"> <%--売れ筋順の時　売れ筋順以外を表示 --%>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_LATEST_STR %>
 						</a>
 						<span>
 							<%=Constant.SORT_HOTSELL_STR %>
 						</span>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_ASC_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_DESC_STR %>
 						</a>
 					</c:when>
 					<c:when test="${sortType=='3'}"> <%--値段が安い順の時　安い順以外を表示 --%>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_LATEST_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_HOTSELL_STR %>
 						</a>
 						<span>
 							<%=Constant.SORT_PRICE_ASC_STR %>
 						</span>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_DESC_STR %>
 						</a>
 					</c:when>
 					<c:when test="${sortType=='4'}"> <%--値段が高い順の時　高い順以外を表示 --%>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_LATEST%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_LATEST_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_HOTSELL_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_ASC_STR %>
 						</a>
 						<span>
@@ -70,13 +70,13 @@
 						<span>
 							<%=Constant.SORT_LATEST_STR %>
 						</span>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_HOTSELL%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_HOTSELL_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_ASC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_ASC_STR %>
 						</a>
-						<a href="<%=request.getContextPath()%>/item/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}">
+						<a href="<%=request.getContextPath()%>/orizinal/list?sortType=<%=Constant.SORT_PRICE_DESC%>&categoryId=${categoryId}&seasonType=${seasonType}">
 							<%=Constant.SORT_PRICE_DESC_STR %>
 						</a>
 					</c:otherwise>

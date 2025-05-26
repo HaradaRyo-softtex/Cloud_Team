@@ -76,7 +76,7 @@ public class ItemDao {
 	
 	
 	/**
-	 * カテゴリIDに該当する情報を取得する(トップ画面で使用　喜田が追加)
+	 * カテゴリIDに該当する情報を取得する(喜田が追加)
 	 */
 	public static List<ItemBean> findByCategoryId(int categoryId, String sortType) throws SQLException, ClassNotFoundException{
 		Connection con = null;
@@ -123,6 +123,50 @@ public class ItemDao {
 	}
 	
 	/**
+	 * seasonTypeに該当する商品を取得（喜田が追加）
+	 * @param sortType
+	 * @param seasonType
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	public static List<ItemBean> findBySeasonType(String sortType, String seasonType) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		List<ItemBean> itemBeanList = new ArrayList<>();
+
+		con = DBManager.getConnection();
+		if("1".equals(seasonType)) {
+			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
+			ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+			}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+			}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+			}else { /**売れ筋順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+			}
+		}else if("2".equals(seasonType)) {
+			if (sortType.equals(Constant.SORT_LATEST)) { /**新着順*/
+				ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE);
+				}else if(sortType.equals(Constant.SORT_PRICE_ASC)) { /**安い順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC);
+				}else if(sortType.equals(Constant.SORT_PRICE_DESC)){ /**高い順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC);
+				}else { /**売れ筋順*/
+					ps = con.prepareStatement(DBConstant.SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT);
+				}
+		}
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			itemBeanList.add(getItemDataNoStock(rs));
+		}
+		DBManager.close(con, ps);
+		return itemBeanList;
+	}
+	
+	
+	/**
 	 * カテゴリIDに該当する商品情報の件数を取得する（喜田が追加）
 	 */
 	public static Integer getItemsCountByCategoryId(int categoryId) throws SQLException, ClassNotFoundException {
@@ -163,7 +207,9 @@ public class ItemDao {
 	    return exists;
 	}
 
-	
+	/**
+	 * 
+	 */
 
 	/**
 	 * 商品Idに該当する情報を1件だけ取得する

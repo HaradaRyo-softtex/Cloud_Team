@@ -136,6 +136,50 @@ public class DBConstant {
 			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND i.category_id = ?"//$NON-NLS-1$ //$NON-NLS-2$
 			+ " ORDER BY i.price DESC,i.id ASC"; //$NON-NLS-1$;
 	
+	/**6,7,8月の商品を検索*/
+	/** 6,7,8月の商品情報を全件検索(新着順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%6%' OR season LIKE '%7%' OR season LIKE '%8%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.insert_date DESC,i.id ASC"; //$NON-NLS-1$
+	
+	/** 6,7,8月の商品情報を全件検索(価格が安い順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%6%' OR season LIKE '%7%' OR season LIKE '%8%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price ASC,i.id ASC"; //$NON-NLS-1$
+
+	/** 6,7,8月の商品情報を全件検索(価格が高い順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%6%' OR season LIKE '%7%' OR season LIKE '%8%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price DESC,i.id ASC"; //$NON-NLS-1$
+	
+	/** 6,7,8月の商品情報を全件検索（売れ筋順） */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_1_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image,  c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" +" INNER JOIN order_items oi ON i.id = oi.item_id"+ " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%6%' OR season LIKE '%7%' OR season LIKE '%8%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " GROUP BY i.id, i.name, i.price, i.image, c.name " + " ORDER BY SUM(oi.quantity) DESC,i.id ASC"; //$NON-NLS-1$
+	
+	
+	/**5月の商品を検索*/
+	/** 5月の商品情報を全件検索(新着順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%5%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.insert_date DESC,i.id ASC"; //$NON-NLS-1$
+	
+	/** 5月の商品情報を全件検索(価格が安い順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_ASC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%5%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price ASC,i.id ASC"; //$NON-NLS-1$
+
+	/** 5月の商品情報を全件検索(価格が高い順) */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDER_BY_PRICE_DESC = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" + " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%5%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " ORDER BY i.price DESC,i.id ASC"; //$NON-NLS-1$
+	
+	/** 5月の商品情報を全件検索（売れ筋順） */
+	public static final String SQL_SELECT_ITEMS_BY_SEASON_2_JOIN_CATEGORIES_ORDERITEMS_ORDER_BY_ORDER_COUNT = "SELECT i.id, i.name, i.price, i.image,  c.name AS categoryName FROM items i" //$NON-NLS-1$
+			+ " INNER JOIN categories c ON i.category_id=c.id" +" INNER JOIN order_items oi ON i.id = oi.item_id"+ " WHERE i.delete_flag =" + NOT_DELETED + " AND season LIKE '%5%'"//$NON-NLS-1$ //$NON-NLS-2$
+			+ " GROUP BY i.id, i.name, i.price, i.image, c.name " + " ORDER BY SUM(oi.quantity) DESC,i.id ASC"; //$NON-NLS-1$
+	
+	
 	/** 商品情報を商品IDで検索(商品詳細用) */
 	public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_BY_ITEMID = "SELECT i.id, i.name, i.price, i.description,i.stock, i.image, c.id AS categoryId ,c.name AS categoryName FROM items i" //$NON-NLS-1$
 			+ " INNER JOIN categories c ON i.category_id=c.id " + " WHERE i.delete_flag=" + NOT_DELETED //$NON-NLS-1$ //$NON-NLS-2$
@@ -157,7 +201,7 @@ public class DBConstant {
 	
 	/**カテゴリIDに該当する商品情報の総件数を取得（追加）*/
 	public static final String SQL_SELECT_COUNT_ITEMS_BY_CATEGORY = "SELECT count(id) AS count FROM items " + " WHERE delete_flag =" + NOT_DELETED + " AND category_id = ?"; //$NON-NLS-1$
-
+	
 	// カテゴリ関連(categoriesテーブル) SQL */
 	/** カテゴリ情報を全件検索(新着順) */
 	public static final String SQL_SELECT_CATEGORIES_ORDER_BY_INSERT_DATE = "SELECT id,name,description FROM categories WHERE delete_flag =" //$NON-NLS-1$
