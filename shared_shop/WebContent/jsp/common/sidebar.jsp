@@ -55,17 +55,17 @@
 		</div>
 		
 		<div>
-			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+			<a href="<%=request.getContextPath()%>/orizinal/list?categoryId=2" class="special_link">
 				<img src="<%=request.getContextPath()%>/img/sidebar1.png" alt="野菜ページ" />
 			</a>
 		</div>
 		<div>
-			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+			<a href="<%=request.getContextPath()%>/orizinal/list?seasonType=1" class="special_link">
 				<img src="<%=request.getContextPath()%>/img/sidebar2.png" alt="初夏グルメ" />
 			</a>
 		</div>
 		<div>
-			<a href="<%=request.getContextPath()%>/orizinal" class="special_link">
+			<a href="<%=request.getContextPath()%>/orizinal/list?seasonType=2" class="special_link">
 				<img src="<%=request.getContextPath()%>/img/sidebar3.png" alt="今月のおすすめ" />
 			</a>
 		</div>
