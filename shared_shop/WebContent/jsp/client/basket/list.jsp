@@ -73,8 +73,11 @@
 				</table>
 
 				<div class="actions">
-					<a href="${pageContext.request.contextPath}/checkout"
-						class="btn-white">ご注文のお手続き</a>
+					<form action="${pageContext.request.contextPath}/order/address/input" method="post">
+					<input type="submit" class="btn-white" value="ご注文のお手続き">
+					</form>
+					<!--  <a href="${pageContext.request.contextPath}/order/address/input"
+						class="btn-white" method="post">ご注文のお手続き</a>-->
 					<form action="${pageContext.request.contextPath}/basket/deleteAll"
 						method="post">
 						<input type="submit" value="<%=MSGConstant.MSG_BASKET_EMPTY%>" class="btn-red" />
