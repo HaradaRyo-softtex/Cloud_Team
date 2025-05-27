@@ -93,6 +93,7 @@
 						<%=Constant.DATA_SUBTOTAL %>
 					</th>
 				</tr>
+
 				<c:forEach var="orderItemBean" items="${orderItemBeanList}">
 				<tr>
 					<td>
@@ -109,13 +110,14 @@
 					</td>		
 				</tr>
 			    </c:forEach>
+
 				<tr>
 					<td colspan="2"></td>
 					<td class="total">
 						<%=Constant.DATA_TOTAL %>
 					</td>
 					<td class="total">
-						${orderDetailBean.total} 
+						${orderDetail.total} 
 					</td>
 				</tr>
 			</table>

@@ -78,7 +78,6 @@
 				</form>
 				</c:if>
 				<form action="<%=request.getContextPath()%>/item/list" class="user_info_form">
-					<input type="hidden" name="sortType" value="${param.sortType}" />
 					<input type="submit" value="戻る"  class="back_button" />
 
 				</form>

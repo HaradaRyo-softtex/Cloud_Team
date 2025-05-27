@@ -15,7 +15,6 @@ import jp.co.sss.shop.bean.ItemBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.URLConstant;
 import jp.co.sss.shop.dao.ItemDao;
-import jp.co.sss.shop.dao.OrderDao;
 
 /**
  * トップ画面表示用コントローラ
@@ -43,12 +42,18 @@ public class IndexController extends HttpServlet {
 		try {
 			// TODO 売れ筋情報があるかを判別し、sortTypeを変更する
 			// 過去の注文件数が1件以上あれば、並び替え順に売れ筋順をセット
+			
+			//喜田が追加
+			if(ItemDao.existsOrderItems()) {
+				sortType = Constant.SORT_HOTSELL;
+			}
 			itemBeanList = ItemDao.findAll(sortType);
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
 			return;
 		}
+		
 		request.setAttribute("sortType", sortType);
 		request.setAttribute("itemBeanList", itemBeanList);
 		request.getRequestDispatcher("/jsp/top.jsp").forward(request, response);
