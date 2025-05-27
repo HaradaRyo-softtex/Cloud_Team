@@ -54,6 +54,17 @@
 								<input type="password" name="password" value="" />
 							</label>
 						</li>
+					<!--パスワード再確認(追加機能)  -->	
+						<li>
+							<label>
+								<span class="input_title">
+									<%=Constant.DATA_RECHECKPASSWORD%>
+								</span>
+								<input type="password" name="newpassword" value=""/>
+							</label>
+						</li>
+					<!-- パスワード再確認(ここまで) -->
+						
 						<li>
 							<label>
 								<span class="input_title">
