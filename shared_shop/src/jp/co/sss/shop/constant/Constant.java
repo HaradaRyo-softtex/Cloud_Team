@@ -208,6 +208,8 @@ public class Constant {
 	public static final String DATA_EMAIL = "メールアドレス"; //$NON-NLS-1$
 	/** パスワード */
 	public static final String DATA_PASSWORD = "パスワード"; //$NON-NLS-1$
+	/** パスワード確認 */
+	public static final String DATA_RECHECKPASSWORD = "パスワード再確認"; //$NON-NLS-1$
 	/** 氏名 */
 	public static final String DATA_USERNAME = "氏名"; //$NON-NLS-1$
 	/** 郵便番号 */

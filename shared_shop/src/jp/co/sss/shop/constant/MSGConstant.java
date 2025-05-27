@@ -51,7 +51,9 @@ public class MSGConstant {
 	public static final String MSG_LOGIN_INPUT = "メールアドレスとパスワードを入力してください。"; //$NON-NLS-1$
 	/** ログインID、またはパスワードが間違っていた場合のエラーメッセージ */
 	public static final String MSG_LOGIN_EMAIL_OR_PASSWORD_MISMATCH = "メールアドレスもしくはパスワードが間違っています。"; //$NON-NLS-1$
-
+    /**再確認パスワードが間違っている場合*/
+	public static final String MSG_NEWPASSWORD_MISMATCH = "パスワードが一致しません"; //$NON-NLS-1$
+	
 	// 商品一覧画面メッセージ
 	/** 検索結果が0件の場合のメッセージ */
 	public static final String MSG_ITEM_CLIENT_LIST_NONE = "閲覧できる商品情報がありません。"; //$NON-NLS-1$

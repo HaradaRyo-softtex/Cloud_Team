@@ -17,6 +17,7 @@
 		<%@include file="/jsp/common/sidebar.jsp" %>
 		<article class="main">
 			<c:if test="${itemBeanList.size()==0}">
+
 			 <%--閲覧できる商品情報がない --%>
 				<p><%=MSGConstant.MSG_ITEM_CLIENT_LIST_NONE %>
 			</c:if>

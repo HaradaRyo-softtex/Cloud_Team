@@ -44,6 +44,14 @@ public class UserForm implements Serializable {
 	 * 権限(表示文字列)
 	 */
 	private String authorityStr;
+	
+	/**
+	 * パスワード(確認)
+	 */
+	private String newpassword;
+	
+	
+	
 
 	/**
 	 * 会員ID(文字列)の取得
@@ -207,4 +215,21 @@ public class UserForm implements Serializable {
 		this.authorityStr = authorityStr;
 	}
 
-}
+	/** 権限の文字列表現のセット
+	
+	 * @param authorityStr 権限の文字列表現
+	 * (newpassword)*/
+	
+	public void setNewPassword(String newpassword) {
+		this.newpassword = newpassword;
+		
+	}
+	
+	public String getNewPassword() {
+		return this.newpassword;
+		
+	    }
+	}
+
+
+

@@ -4,12 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<%@include file="/jsp/common/head.jsp" %>
 	<title>
 		<%=Constant.USER%>変更完了 | <%=Constant.SHOP_TITLE%>
 	</title>
 </head>
 <body  class="admin user_update_complete">
+   
 	<%@include file="/jsp/common/header.jsp" %>
 	<div class="container side_wrap">
 		<%@include file="/jsp/common/sidebar_admin.jsp" %>

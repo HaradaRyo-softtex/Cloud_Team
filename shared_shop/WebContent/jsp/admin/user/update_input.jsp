@@ -12,6 +12,7 @@
 	</title>
 </head>
 <body  class="admin user_update_input">
+
 	<%@include file="/jsp/common/header.jsp" %>
 	<div class="container side_wrap">
 		<%@include file="/jsp/common/sidebar_admin.jsp" %>
@@ -84,10 +85,7 @@
 								<input type="text" name="phoneNumber" value="${userForm.phoneNumber}"/>
 							</label>
 						</li>
-						<li>
-							<span class="input_title">
-								<%=Constant.DATA_AUTHORITY%>
-							</span>
+						
 							<div class="input">
 							<%--ログインユーザの権限がシステム管理者の場合のみ権限を設定できるようにする --%>
 							<c:if test="${user.authority==Constant.AUTH_SYSTEM}">

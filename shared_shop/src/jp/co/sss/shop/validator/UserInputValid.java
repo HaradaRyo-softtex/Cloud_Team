@@ -38,7 +38,9 @@ public class UserInputValid {
 		String postalCode = userForm.getPostalCode();
 		String address = userForm.getAddress();
 		String phoneNumber = userForm.getPhoneNumber();
-
+		//追加
+		String newpassword = userForm.getNewPassword();
+		
 		// ****** emailのチェック ****** //
 		if (CommonValid.isEmpty(email)) {
 			// 未入力チェック
@@ -64,6 +66,13 @@ public class UserInputValid {
 			// 桁数の範囲チェック
 			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_OVERRANGE_STR, Constant.DATA_PASSWORD,
 					Constant.PASSWORD_LENGTH_MIN, Constant.PASSWORD_LENGTH_MAX));
+		}
+			
+			//パスワード比較
+	if(!newpassword.equals(password)) {
+			errorMessageList.add(MessageFormat.format(MSGConstant.MSG_NEWPASSWORD_MISMATCH, Constant.DATA_PASSWORD));
+			
+			
 		}
 		// ****** 名前のチェック ****** //
 		if (CommonValid.isEmpty(name)) {
@@ -111,7 +120,7 @@ public class UserInputValid {
 
 		return errorMessageList;
 	}
-
+	
 	/**
 	 * Emailの重複チェックを行う処理
 	 * 
