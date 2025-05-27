@@ -70,6 +70,7 @@ public class DBConstant {
 	public static final String SQL_INSART_ORDERS = "INSERT INTO orders VALUES(seq_orders.NEXTVAL,?,?,?,?,?,?,?)";
   /**注文商品登録2　古崎編集*/
 	public static final String SQL_SELECT_ORDERS = "SELECT Max(id) AS orderid FROM orders WHERE user_id=?";
+	
 	// 商品関連(itemsテーブル) SQL */
     /** 商品情報を全件検索(ID順) 管理者用 */
     public static final String SQL_SELECT_ITEMS_JOIN_CATEGORIES_ORDER_BY_ID = "SELECT i.id, i.name, i.price, i.image, c.name AS categoryName FROM items i" //$NON-NLS-1$
@@ -170,7 +171,8 @@ public class DBConstant {
     public static final String SQL_DELETE_ITEM = "UPDATE items SET delete_flag=" + DELETED + " WHERE id = ?"; //$NON-NLS-1$ //$NON-NLS-2$
     /** 商品情報の総件数を取得 */
     public static final String SQL_SELECT_COUNT_ITEMS = "SELECT count(id) AS count FROM items"; //$NON-NLS-1$
-    
+   /**小島編集*/
+    public static final String SQL_UPDATE_ITEMS = "update items set stock = stock - ? where id = ?";
     /**カテゴリIDに該当する商品情報の総件数を取得（追加）*/
     public static final String SQL_SELECT_COUNT_ITEMS_BY_CATEGORY = "SELECT count(id) AS count FROM items " + " WHERE delete_flag =" + NOT_DELETED + " AND category_id = ?"; //$NON-NLS-1$
     

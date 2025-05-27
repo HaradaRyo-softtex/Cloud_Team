@@ -15,8 +15,12 @@ import jp.co.sss.shop.bean.BasketBean;
 import jp.co.sss.shop.bean.ItemDetailBean;
 import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.constant.Constant;
+import jp.co.sss.shop.constant.MSGConstant;
 import jp.co.sss.shop.constant.URLConstant;
+import jp.co.sss.shop.dao.ItemDao;
 import jp.co.sss.shop.dao.OrderDao;
+import jp.co.sss.shop.dao.OrderItemDao;
+import jp.co.sss.shop.dto.OrderItem;
 import jp.co.sss.shop.form.OrderForm;
 
 /**
@@ -36,19 +40,47 @@ public class OrderRegistCompleteController extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		try {
-			
+
 			OrderForm orderForm = (OrderForm) session.getAttribute("orderform");
 			UserBean user_bean = (UserBean) session.getAttribute("user");
-			
-				int user_id = user_bean.getId();
-				OrderDao.insert(orderForm, user_id);
+
+			int user_id = user_bean.getId();
+			OrderDao.insert(orderForm, user_id);
 
 			int orderid = OrderDao.getOrderId(user_id);
-			List<ItemDetailBean> itemDetailBeanList = (List<ItemDetailBean>)session.getAttribute("itemDetailBeanList");
+			List<ItemDetailBean> itemDetailBeanList = (List<ItemDetailBean>) session.getAttribute("itemDetailBeanList");
 			List<BasketBean> basket = (List<BasketBean>) session.getAttribute("basket");
-			
-			//OrderItemDao.insert();
-			
+			for (BasketBean bask : basket) {
+				ItemDetailBean itemdetailbean = ItemDao.findOneByItemId(bask.getId());
+				itemdetailbean.getStock();
+				if (bask.getOrderNum() > itemdetailbean.getStock()) {
+					bask.setOrderNum(itemdetailbean.getStock());
+					session.setAttribute("errormessage",
+							itemdetailbean.getName() + MSGConstant.MSG_ORDER_ITEM_STOCK_SHORT);
+					response.sendRedirect(request.getContextPath() + "/order/regist/confirm");
+					//request.getRequestDispatcher("/jsp/client/order/comfirm.jsp").forward(request, response);
+
+					return;
+				} else if (itemdetailbean.getStock() == 0) {
+					session.setAttribute("errormessage",
+							itemdetailbean.getName() + MSGConstant.MSG_ORDER_ITEM_STOCK_NONE);
+					response.sendRedirect(request.getContextPath() + "/order/regist/confirm");
+					return;
+				} else {
+					int price = itemdetailbean.getPrice();
+					OrderItem orderItem = new OrderItem();
+					orderItem.setQuantity(bask.getOrderNum());
+					orderItem.setItemId(bask.getId());
+					orderItem.setPrice(price);
+					orderItem.setOrderId(orderid);
+
+					OrderItemDao.insert(orderItem);
+
+					ItemDao.update(bask.getOrderNum(), bask.getId());
+					session.removeAttribute("basket");
+				}
+			}
+
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);

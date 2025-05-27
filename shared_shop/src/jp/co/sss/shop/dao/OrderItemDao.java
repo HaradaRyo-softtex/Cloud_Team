@@ -48,4 +48,20 @@ public class OrderItemDao {
 		return orderItemBeanList;
 	}
 
+	public static int insert(OrderItem orderitem) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int ins = 0;
+
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_INSERT_ORDERITEM);
+		ps.setInt(1, orderitem.getQuantity());
+		ps.setInt(2, orderitem.getOrderId());
+		ps.setInt(3, orderitem.getItemId());
+		ps.setInt(4, orderitem.getPrice());
+		ins = ps.executeUpdate();
+
+		DBManager.close(con, ps);
+		return ins;
+	}
 }

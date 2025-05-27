@@ -140,7 +140,7 @@ public class OrderDao {
 		int inw = 0;
 		
 		con = DBManager.getConnection();
-		ps = con.prepareStatement(DBConstant.SQL_SELECT_ORDERS);
+		ps = con.prepareStatement("SELECT Max(id) AS orderid FROM orders WHERE user_id=?");
 		
 		ps.setInt(1,user_id);
 		ResultSet rs = ps.executeQuery();

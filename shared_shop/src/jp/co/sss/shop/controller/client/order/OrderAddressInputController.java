@@ -18,12 +18,14 @@ import jp.co.sss.shop.constant.URLConstant;
 import jp.co.sss.shop.dao.UserDao;
 import jp.co.sss.shop.form.OrderForm;
 import jp.co.sss.shop.validator.UserInputValid;
+
 /**
  * Servlet implementation class OrderAddressInputController
  */
 @WebServlet("/order/address/input")
 public class OrderAddressInputController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String backflg = request.getParameter("backflg");
@@ -33,13 +35,13 @@ public class OrderAddressInputController extends HttpServlet {
 			int user_id = user_bean.getId();
 			try {
 				UserDetailBean userdetailbean = UserDao.findOneByUserId(user_id);
-				OrderForm orderform=new OrderForm();
+				OrderForm orderform = new OrderForm();
 				orderform.setPostalCode(userdetailbean.getPostalCode());
 				orderform.setAddress(userdetailbean.getAddress());
 				orderform.setName(userdetailbean.getName());
 				orderform.setPhoneNumber(userdetailbean.getPhoneNumber());
-				
-				session.setAttribute("orderform",orderform);
+
+				session.setAttribute("orderform", orderform);
 				request.getRequestDispatcher("/jsp/client/order/input_address.jsp").forward(request, response);
 			} catch (ClassNotFoundException e) {
 				// TODO 自動生成された catch ブロック
@@ -79,13 +81,14 @@ public class OrderAddressInputController extends HttpServlet {
 				session.setAttribute("orderform", orderform);
 				response.sendRedirect(request.getContextPath() + "/order/payment/input");
 			}
-			
-		} else if(backflg.equals("on")){
+
+		} else if (backflg.equals("on")) {
 			request.getRequestDispatcher("/jsp/client/order/input_address.jsp").forward(request, response);
-		
-		}else {
+
+		} else {
 			// backflgが存在するが、値が想定外(Hidden情報が書き換えられた)
-			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_UNEXPECTED_TRANSITION);
+			response.sendRedirect(
+					request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_UNEXPECTED_TRANSITION);
 		}
 	}
 }

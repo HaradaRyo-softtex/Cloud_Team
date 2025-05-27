@@ -242,7 +242,22 @@ public class ItemDao {
 		DBManager.close(con, ps);
 		return itemDetailBean;
 	}
-
+	
+	/**小島編集*/
+	public static int update(int item_id, int quantity) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_UPDATE_ITEMS);
+		ps.setInt(1, item_id);
+		ps.setInt(2, quantity);
+		int rs = ps.executeUpdate();
+		DBManager.close(con, ps);
+		
+		return rs;
+		
+	}
 	/**
 	 * 商品名の重複をチェックするために名前で検索しIDを取得する
 	 *
