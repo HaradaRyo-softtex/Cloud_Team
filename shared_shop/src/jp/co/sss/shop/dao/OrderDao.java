@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import jp.co.sss.shop.bean.OrderBean;
@@ -15,6 +16,7 @@ import jp.co.sss.shop.constant.DBConstant;
 import jp.co.sss.shop.dto.OrderDetail;
 import jp.co.sss.shop.dto.OrderItem;
 import jp.co.sss.shop.dto.OrdersSum;
+import jp.co.sss.shop.form.OrderForm;
 
 /**
  * 注文情報テーブルを操作するクラス
@@ -130,6 +132,47 @@ public class OrderDao {
 		DBManager.close(con, ps2);
 		return orderItemList;
 	}
+	
+	
+	public static int getOrderId(int user_id) throws SQLException,ClassNotFoundException{
+		Connection con = null;
+		PreparedStatement ps = null;
+		int inw = 0;
+		
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_SELECT_ORDERS);
+		
+		ps.setInt(1,user_id);
+		ResultSet rs = ps.executeQuery();
+		if(rs.next()) {
+			inw = rs.getInt("orderid");
+			
+		}
+		DBManager.close(con, ps);
+		return inw;
+	}
+	
+	public static int insert(OrderForm orders,int user_id) throws SQLException, ClassNotFoundException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		int ine = 0;
+		con = DBManager.getConnection();
+		ps = con.prepareStatement(DBConstant.SQL_INSART_ORDERS);
+		
+		ps.setString(1,orders.getPostalCode());
+		ps.setString(2,orders.getAddress());
+		ps.setString(3,orders.getName());
+		ps.setString(4,orders.getPhoneNumber());
+		ps.setInt(5,Integer.parseInt(orders.getPayMethod()));
+		ps.setInt(6,user_id);
+		Date date =new Date();
+		java.sql.Date date2 = new java.sql.Date(date.getTime());
+		ps.setDate(7,date2);
+		ine = ps.executeUpdate();
+		System.out.println(ine);
+		DBManager.close(con,ps);
+		return ine;
+	}
 	/**
 	 * 注文Idに該当する注文情報を1件だけ取得する(管理者向け,会員氏名を含む)
 	 *
@@ -243,4 +286,5 @@ public class OrderDao {
 		return orderDetailBean;
 	}
 
+	
 }
