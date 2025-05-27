@@ -23,6 +23,7 @@ import jp.co.sss.shop.validator.URLValid;
  */
 @WebServlet("/user/regist/complete")
 public class UserRegistCompleteController extends HttpServlet {
+	
 	/** シリアルID */
 	private static final long serialVersionUID = 1L;
 

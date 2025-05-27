@@ -94,7 +94,7 @@ public class UserUpdateInputController extends HttpServlet {
 			userForm.setPhoneNumber(request.getParameter("phoneNumber"));
 			String authority = request.getParameter("authority");
 			userForm.setAuthority("2");
-			
+			userForm.setNewPassword(request.getParameter("newpassword"));
 			
 			
 			System.out.println(request.getParameter("id"));
@@ -105,9 +105,9 @@ public class UserUpdateInputController extends HttpServlet {
 			System.out.println(request.getParameter("address"));
 			System.out.println(request.getParameter("phoneNumber"));
 			System.out.println(request.getParameter("authority"));
+			System.out.println(request.getParameter("newpassword"));
 			
-			
-			// 表示するための文字列を生成
+			// 表示するための文字列を生成(今は表示していません)
 			//userForm.setAuthorityStr(Constant.AUTH_MAP.get(Integer.parseInt(authority)));
 
 			// エラーチェック

@@ -50,6 +50,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			userForm.setAddress(request.getParameter("address"));
 			userForm.setPhoneNumber(request.getParameter("phoneNumber"));
 			
+			userForm.setNewPassword(request.getParameter("newpassword"));
 			
 			// エラーチェック
 			List<String> errorMessageList = null;
@@ -91,6 +92,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			// 想定外の状態 backflgがnullもしくは、値が想定外
 			response.sendRedirect(
 					request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_UNEXPECTED_TRANSITION);
-		}
+	
+			}
+		
 	}
 }
