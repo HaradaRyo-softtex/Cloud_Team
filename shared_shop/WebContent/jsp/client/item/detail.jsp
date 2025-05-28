@@ -31,7 +31,7 @@
 						<button id="favoriteButton"
 						        data-item-id="${itemDetailBean.id}"
 						        data-logged-in="${user != null}"
-						        style="position: absolute; top: 8px; right: 8px; background: none; border: none; padding: 0; cursor: pointer;">
+						        style="position: absolute; top: 8px; background: none; border: none; padding: 0; cursor: pointer;">
 							<img id="favoriteImg"
 							     src="<%=request.getContextPath()%>/img/${itemDetailBean.favorite ? "heart_pink.png" : "heart.png"}"
 							     alt="お気に入り"
