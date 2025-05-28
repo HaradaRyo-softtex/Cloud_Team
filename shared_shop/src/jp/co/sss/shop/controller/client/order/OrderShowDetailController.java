@@ -18,47 +18,64 @@ import jp.co.sss.shop.constant.URLConstant;
 import jp.co.sss.shop.dao.OrderDao;
 import jp.co.sss.shop.dto.OrderDetail;
 import jp.co.sss.shop.dto.OrderItem;
+
 /**
  * Servlet implementation class OrderShowDetailController
  */
 @WebServlet("/order/detail")
 public class OrderShowDetailController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		
-		List<OrderDetail> orderDetailsList = new ArrayList<>();
-		List<OrderItem> orderItemList = new ArrayList<>();
-		
-		try {
-			HttpSession session = request.getSession();
-			UserBean user_bean =  (UserBean) session.getAttribute("user");
-			int user_id = user_bean.getId();
-			orderDetailsList = OrderDao.findOrderDetails(user_id);
-			orderItemList = OrderDao.findOrderItem(user_id);
-			System.out.println(orderItemList);
-		} catch (ClassNotFoundException | SQLException e) {
-			
-			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
-			return;
-		}
-		request.setAttribute("orderDetailsList", orderDetailsList);
-		request.setAttribute("orderItemList", orderItemList);
-		request.getRequestDispatcher("/jsp/client/order/detail.jsp").forward(request, response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        
+        List<OrderDetail> orderDetailsList = new ArrayList<>();
+        List<OrderItem> orderItemList = new ArrayList<>();
+        
+        try {
+            HttpSession session = request.getSession();
+            UserBean user_bean =  (UserBean) session.getAttribute("user");
+            int user_id = user_bean.getId();
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
+            // リクエストパラメータからorderIdを取得（なければ0）
+            String orderIdParam = request.getParameter("orderId");
+            int orderId = 0;
+            if (orderIdParam != null && !orderIdParam.isEmpty()) {
+                try {
+                    orderId = Integer.parseInt(orderIdParam);
+                } catch (NumberFormatException e) {
+                    orderId = 0;  // 無効な値の場合は0扱い
+                }
+            }
 
+            // orderIdが指定されていなければ最新の注文IDを取得
+            if (orderId == 0) {
+                orderId = OrderDao.getOrderId(user_id);
+            }
+
+            if (orderId == 0) {
+                // 注文なし
+                request.setAttribute("orderDetailsList", orderDetailsList);
+                request.setAttribute("orderItemList", orderItemList);
+                request.getRequestDispatcher("/jsp/client/order/detail.jsp").forward(request, response);
+                return;
+            }
+
+            // 注文IDに基づいて詳細と商品情報取得
+            orderDetailsList = OrderDao.findOrderDetails(orderId);
+            orderItemList = OrderDao.findOrderItem(orderId);
+
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
+            return;
+        }
+        request.setAttribute("orderDetailsList", orderDetailsList);
+        request.setAttribute("orderItemList", orderItemList);
+        request.getRequestDispatcher("/jsp/client/order/detail.jsp").forward(request, response);
+    }
 }

@@ -17,8 +17,9 @@ import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.URLConstant;
 import jp.co.sss.shop.dao.OrderDao;
 import jp.co.sss.shop.dto.OrdersSum;
+
 /**
- * Servlet implementation class OrderShowListController
+ * ログイン中ユーザーの注文履歴一覧を表示するコントローラ
  */
 @WebServlet("/order/list")
 public class OrderShowListController extends HttpServlet {
@@ -26,38 +27,42 @@ public class OrderShowListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * DBから商品情報一覧を取得し表示する
-	 * 
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * DBから注文情報一覧を取得して表示する
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		List<OrdersSum> orderSumList = new ArrayList<>();
-		
+
 		try {
 			HttpSession session = request.getSession();
-			UserBean user_bean =  (UserBean) session.getAttribute("user");
+			UserBean user_bean = (UserBean) session.getAttribute("user");
+
+			// ログインしていない場合はログインページへリダイレクト
+			if (user_bean == null) {
+				response.sendRedirect(request.getContextPath() + "/login");
+				return;
+			}
+
 			int user_id = user_bean.getId();
 			orderSumList = OrderDao.findAllByOrderIdIncludeUserName(user_id);
 
 		} catch (ClassNotFoundException | SQLException e) {
-
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB);
 			return;
 		}
+
 		request.setAttribute("orderSumList", orderSumList);
 		request.getRequestDispatcher("/jsp/client/order/list.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * POSTリクエストもGETと同様に処理
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

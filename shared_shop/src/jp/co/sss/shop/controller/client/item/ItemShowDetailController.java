@@ -11,8 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import jp.co.sss.shop.bean.ItemDetailBean;
+import jp.co.sss.shop.bean.UserBean;
 import jp.co.sss.shop.constant.Constant;
 import jp.co.sss.shop.constant.URLConstant;
+import jp.co.sss.shop.dao.FavoriteDAO;
 import jp.co.sss.shop.dao.ItemDao;
 import jp.co.sss.shop.validator.IdValid;
 
@@ -56,10 +58,20 @@ public class ItemShowDetailController extends HttpServlet {
 		}
 		if (itemDetailBean == null) {
 			response.sendRedirect(request.getContextPath() + URLConstant.URL_ERROR_TYPE + Constant.ERROR_CODE_DB_NONE);
-		} else {
-			request.setAttribute("itemDetailBean", itemDetailBean);
-			request.getRequestDispatcher("/jsp/client/item/detail.jsp").forward(request, response);
+			return;
 		}
-	}
 
+		// ここからお気に入り判定の追加
+		UserBean user = (UserBean) session.getAttribute("user");
+		if (user != null) {
+			FavoriteDAO favoriteDao = new FavoriteDAO();
+			boolean isFavorite = favoriteDao.isFavorite(user.getId(), itemDetailBean.getId());
+			itemDetailBean.setFavorite(isFavorite);
+		} else {
+			itemDetailBean.setFavorite(false);
+		}
+
+		request.setAttribute("itemDetailBean", itemDetailBean);
+		request.getRequestDispatcher("/jsp/client/item/detail.jsp").forward(request, response);
+	}
 }

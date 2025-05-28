@@ -49,65 +49,65 @@ public class OrderDao {
 	}
 	
 	// 小島和也 追記 2025/5/19
+	// 原田 追記 0527
 	public static List<OrdersSum> findAllByOrderIdIncludeUserName(int userId) 
-			throws SQLException, ClassNotFoundException {
-		Connection con = null;
-		PreparedStatement ps = null;
-		List<OrdersSum> ordersumList = new ArrayList<>();
-		
-		con = DBManager.getConnection();
-		ps = con.prepareStatement("select insert_date, pay_method, order_id, SUM(price*quantity) as sum from orders inner join order_items on orders.id = order_items.id group by insert_date, pay_method, order_id order by insert_date asc");
-		ResultSet rs = ps.executeQuery();
-		while (rs.next()) {
-//			private Date date;
-//			private int pay_method;
-//			private int order_id;
-//			private int sum;
-			OrdersSum orderssum = new OrdersSum();
-			orderssum.setDate(rs.getDate("insert_date"));
-			orderssum.setPay_method(rs.getInt("pay_method"));
-			orderssum.setOrder_id(rs.getInt("order_id"));
-			orderssum.setSum(rs.getInt("sum"));
-			ordersumList.add(orderssum);
-			
-		}
-		DBManager.close(con, ps);
-		return ordersumList;
+	        throws SQLException, ClassNotFoundException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    List<OrdersSum> ordersumList = new ArrayList<>();
+
+	    con = DBManager.getConnection();
+	    String sql = "SELECT o.insert_date, o.pay_method, o.id AS order_id, SUM(oi.price * oi.quantity) AS sum "
+	               + "FROM orders o "
+	               + "INNER JOIN order_items oi ON o.id = oi.order_id "
+	               + "WHERE o.user_id = ? "
+	               + "GROUP BY o.insert_date, o.pay_method, o.id "
+	               + "ORDER BY o.insert_date ASC";
+	    ps = con.prepareStatement(sql);
+	    ps.setInt(1, userId);
+	    ResultSet rs = ps.executeQuery();
+	    while (rs.next()) {
+	        OrdersSum orderssum = new OrdersSum();
+	        orderssum.setDate(rs.getDate("insert_date"));
+	        orderssum.setPay_method(rs.getInt("pay_method"));
+	        orderssum.setOrder_id(rs.getInt("order_id"));
+	        orderssum.setSum(rs.getInt("sum"));
+	        ordersumList.add(orderssum);
+	    }
+	    DBManager.close(con, ps);
+	    return ordersumList;
 	}
 	
 	// 小島和也　追記 5/21
-	public static List<OrderDetail> findOrderDetails(int user_id) 
-			throws SQLException, ClassNotFoundException {
-		Connection con = null;
-		PreparedStatement ps1 = null;
-//		PreparedStatement ps2 = null;
-		List<OrderDetail> orderDetailList = new ArrayList<>();
-		
-		con = DBManager.getConnection();
-		ps1 = con.prepareStatement("select insert_date, pay_method, address, postal_code, name, phone_number from orders where id = 1");
-//		ps2 = con.prepareStatement("select o.item_id, o.price, o.quantity, SUM(o.price*quantity) as sum from order_items o inner join items i on i.id = o.item_id where order_id = 1 group by o.item_id, o.price, o.quantity");
-		ResultSet rs1 = ps1.executeQuery();
-//		ResultSet rs2 = ps2.executeQuery();
-		
-		while (rs1.next()) {
+	// findOrderDetails メソッドを注文IDで検索するように修正
+	public static List<OrderDetail> findOrderDetails(int orderId) 
+	        throws SQLException, ClassNotFoundException {
+	    Connection con = null;
+	    PreparedStatement ps = null;
+	    List<OrderDetail> orderDetailList = new ArrayList<>();
 
-			
-			OrderDetail orderdetail = new OrderDetail();
-			orderdetail.setInsert_date(rs1.getDate("insert_date"));
-			orderdetail.setPay_method(rs1.getInt("pay_method"));
-			orderdetail.setPostal_code(rs1.getString("postal_code"));
-			orderdetail.setAddress(rs1.getString("address"));
-			orderdetail.setName(rs1.getString("name"));
-			orderdetail.setPhone_number(rs1.getString("phone_number"));
-			orderDetailList.add(orderdetail);
-		}
-		
-//		
-		
-		DBManager.close(con, ps1);
-//		DBManager.close(con, ps2);
-		return orderDetailList;
+	    con = DBManager.getConnection();
+	    // 注文IDで絞り込み
+	    ps = con.prepareStatement(
+	        "select insert_date, pay_method, address, postal_code, name, phone_number from orders where id = ?");
+	    ps.setInt(1, orderId);
+	    ResultSet rs = ps.executeQuery();
+
+	    while (rs.next()) {
+	        OrderDetail orderdetail = new OrderDetail();
+	        orderdetail.setInsert_date(rs.getDate("insert_date"));
+	        orderdetail.setPay_method(rs.getInt("pay_method"));
+	        orderdetail.setPostal_code(rs.getString("postal_code"));
+	        orderdetail.setAddress(rs.getString("address"));
+	        orderdetail.setName(rs.getString("name"));
+	        orderdetail.setPhone_number(rs.getString("phone_number"));
+	        orderDetailList.add(orderdetail);
+	    }
+
+	    DBManager.close(con, ps);
+	    return orderDetailList;
 	}
+
 	public static List<OrderItem> findOrderItem(int orderid) 
 			throws SQLException, ClassNotFoundException {
 		Connection con = null;

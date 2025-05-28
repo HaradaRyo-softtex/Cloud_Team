@@ -27,24 +27,16 @@
 
 					<tr>
 						<th><%=Constant.DATA_PAYMETHOD%></th>
-						<td><c:choose>
-						<c:when test="${order.pay_method==1}">
-						クレジットカード
-						</c:when>
-						<c:when test="${order.pay_method==2}">
-						銀行振り込み
-						</c:when>
-						<c:when test="${order.pay_method==3}">
-						着払い
-						</c:when>
-						<c:when test="${order.pay_method==4}">
-						電子マネー
-						</c:when>
-						<c:when test="${order.pay_method==5}">
-						コンビニ決済
-						</c:when>
-						
-						</c:choose></td>
+						<td>
+							<c:choose>
+								<c:when test="${order.pay_method==1}">クレジットカード</c:when>
+								<c:when test="${order.pay_method==2}">銀行振り込み</c:when>
+								<c:when test="${order.pay_method==3}">着払い</c:when>
+								<c:when test="${order.pay_method==4}">電子マネー</c:when>
+								<c:when test="${order.pay_method==5}">コンビニ決済</c:when>
+								<c:otherwise>不明</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 					<tr>
 						<th><%=Constant.DATA_ADDRESSEE_POSTALCODE%></th>
@@ -62,9 +54,12 @@
 						<th><%=Constant.DATA_ADDRESSEE_PHONENUMBER%></th>
 						<td>${order.phone_number}</td>
 					</tr>
-
 				</c:forEach>
 			</table>
+
+			<!-- ここで total を初期化 -->
+			<c:set var="total" value="0" />
+
 			<table class="list_table detail">
 				<tr>
 					<th><%=Constant.DATA_ITEM_NAME%></th>
@@ -79,14 +74,13 @@
 						<td>${orderItem.price}</td>
 						<td>${orderItem.quantity}</td>
 						<td>${orderItem.sum}</td>
-						<c:set value="${total+orderItem.sum} " var="total"></c:set>
+						<c:set var="total" value="${total + orderItem.sum}" />
 					</tr>
 				</c:forEach>
 				<tr>
 					<td colspan="2"></td>
 					<td class="total"><%=Constant.DATA_TOTAL%></td>
-					<td class="total"><c:out value="${total}"></c:out>
-					</td>
+					<td class="total"><c:out value="${total}" /></td>
 				</tr>
 			</table>
 			<form action="<%=request.getContextPath()%>/order/list"

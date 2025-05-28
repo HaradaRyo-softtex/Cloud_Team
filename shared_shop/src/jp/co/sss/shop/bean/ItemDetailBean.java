@@ -49,6 +49,9 @@ public class ItemDetailBean implements Serializable {
 	 * カテゴリ名
 	 */
 	private String categoryName;
+	
+	// ★ お気に入り状態を保持するフィールド
+	private boolean isFavorite;
 
 	/**
 	 * 商品IDの取得
@@ -192,6 +195,35 @@ public class ItemDetailBean implements Serializable {
 	 */
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
+	}
+	
+
+	/**
+	 * お気に入り状態の取得
+	 * 
+	 * @return true:お気に入り済み, false:未登録
+	 */
+	public boolean isFavorite() {
+	    return isFavorite;
+	}
+	
+	/**
+	 * JSP用：お気に入り状態の取得
+	 * 
+	 * @return true:お気に入り済み, false:未登録
+	 */
+	public boolean getFavorite() {
+	    return isFavorite;
+	}
+
+
+	/**
+	 * お気に入り状態の設定
+	 * 
+	 * @param isFavorite true:お気に入り済み, false:未登録
+	 */
+	public void setFavorite(boolean favorite) {
+	    this.isFavorite = favorite;
 	}
 
 }

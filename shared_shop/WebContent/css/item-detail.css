@@ -1,0 +1,21 @@
+/* favorite-toggle.css */
+.custom-favorite-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.custom-favorite-icon {
+    width: 32px;
+    height: 32px;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.custom-favorite-button:hover .custom-favorite-icon {
+    transform: scale(1.2);
+    filter: brightness(1.3);
+}
