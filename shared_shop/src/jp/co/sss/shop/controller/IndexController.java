@@ -54,7 +54,7 @@ public class IndexController extends HttpServlet {
 			return;
 		}
 		
-		request.setAttribute("sortType", sortType);
+		//request.setAttribute("sortType", sortType);
 		request.setAttribute("itemBeanList", itemBeanList);
 		request.getRequestDispatcher("/jsp/top.jsp").forward(request, response);
 

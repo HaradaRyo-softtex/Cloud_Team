@@ -6,7 +6,7 @@
 <html>
 <head>
 <%@include file="/jsp/common/head.jsp"%>
-<title><%=Constant.ORDER%>お届け先入力| <%=Constant.SHOP_TITLE%></title>
+<title><%=Constant.ORDER%>完了| <%=Constant.SHOP_TITLE%></title>
 </head>
 <body  class="user index">
 	<%@include file="/jsp/common/header.jsp" %>

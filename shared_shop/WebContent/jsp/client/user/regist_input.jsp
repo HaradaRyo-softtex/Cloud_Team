@@ -130,7 +130,7 @@
 					<input type="hidden" name="backflg" value="<%=Constant.BACKFLG_OFF%>" />
 					<input type="submit" value="確認" class="send_button" />
 				</form>
-				<form action="<%=request.getContextPath()%>/client/user/list">
+				<form action="<%=request.getContextPath()%>/top"> <%--トップに戻る 喜田が変更--%>
 					<input type="submit" value="戻る" class="back_button" />
 				</form>
 			</div>

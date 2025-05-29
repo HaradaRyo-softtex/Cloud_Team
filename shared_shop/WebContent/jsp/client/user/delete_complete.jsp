@@ -7,7 +7,7 @@
   <!--削除完了画面 -->
 	<%@include file="/jsp/common/head.jsp" %>
 	<title>
-		<%=Constant.USER%>削除完了 | <%=Constant.SHOP_TITLE%>
+		<%=Constant.USER%>退会完了 | <%=Constant.SHOP_TITLE%><%--削除から退会に喜田が変更 --%>
 	</title>
 </head>
 <body  class="user user_delete">
@@ -17,10 +17,10 @@
 		<%@include file="/jsp/common/sidebar.jsp" %>
 		<article class="main">
 			<h2 class="title">
-				<%=Constant.USER%>削除完了
+				<%=Constant.USER%>退会完了<%--削除から退会に喜田が変更 --%>
 			</h2>
 			<p class="complete_message">
-				<%=Constant.USER+MSGConstant.MSG_DELETE_COMPLETE%>
+				<%=Constant.USER+MSGConstant.MSG_CLIENT_DELETE_COMPLETE%><%--削除から退会に喜田が変更 --%>
 			</p>
 			<p class="complete_link">
 				<a href="<%=request.getContextPath()%>/top">

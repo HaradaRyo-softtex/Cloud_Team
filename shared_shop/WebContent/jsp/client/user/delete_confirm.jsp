@@ -7,7 +7,7 @@
   <!--削除確認画面 -->
 	<%@include file="/jsp/common/head.jsp" %>
 	<title>
-		<%=Constant.USER%>削除確認 | <%=Constant.SHOP_TITLE%>
+		<%=Constant.USER%>退会確認 | <%=Constant.SHOP_TITLE%><%--削除から退会に喜田が変更 --%>
 	</title>
 </head>
 <body  class="user user_delete">
@@ -17,10 +17,10 @@
 		<%@include file="/jsp/common/sidebar.jsp" %>
 		<article class="main">
 			<h2 class="title">
-				<%=Constant.USER%>削除確認
+				<%=Constant.USER%>退会確認<%--削除から退会に喜田が変更 --%>
 			</h2>
 			<p class="check_message">
-				<%=MSGConstant.MSG_DELETE_CONFIRM%>
+				<%=MSGConstant.MSG_CLIENT_DELETE_COMFIRM%><%--削除から退会に喜田が変更 --%>
 			</p>
 			<div class="user_info_form_area">
 				<ul class="input_list">

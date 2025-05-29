@@ -8,7 +8,7 @@
   <!--新規確認画面 -->
 	<%@include file="/jsp/common/head.jsp" %>
 	<title>
-		<%=Constant.USER%>会員新規登録 | <%=Constant.SHOP_TITLE%>
+		<%=Constant.USER%>登録確認 | <%=Constant.SHOP_TITLE%>
 	</title>
 </head>
 <body  class="user user_regist">

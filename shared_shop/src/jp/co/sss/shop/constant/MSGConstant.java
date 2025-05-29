@@ -87,8 +87,8 @@ public class MSGConstant {
 	public static final String MSG_BASKET_STOCK_NONE = "は、在庫切れです。他の商品を選択してください。"; //$NON-NLS-1$
 	/** 買い物かごに入れていた商品の在庫が買い物かごに入れている数を下回った場合に表示するメッセージ */
 	public static final String MSG_BASKET_STOCK_SHORT = "は、在庫不足のため、数を増やすことができません"; //$NON-NLS-1$
-
-	public static final String MSG_BASKET_EMPTY = "買い物かごは空です。";
+	/**買い物かごを空にするボタン　喜田が編集*/
+	public static final String MSG_BASKET_EMPTY = "買い物かごを空にします";
 
 	// 入力チェック 共通メッセージ java.text.MessageFormat#formatを利用することを想定
 	/** 必須項目が空欄もしくは半角空白のみ場合のメッセージ */

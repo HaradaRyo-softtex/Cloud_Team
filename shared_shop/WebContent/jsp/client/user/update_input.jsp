@@ -131,7 +131,7 @@
 					<input type="hidden" name="backflg" value="<%=Constant.BACKFLG_OFF%>" />
 					<input type="submit" value="確認" class="send_button" />
 				</form>
-				<form action="<%=request.getContextPath()%>/client/user/detail">
+				<form action="<%=request.getContextPath()%>/user/detail"><%--遷移エラー　喜田が変更--%>
 					<input type="hidden" name="id" value="${userForm.id}"/>
 					<input type="submit" value="戻る" class="back_button" />
 				</form>
